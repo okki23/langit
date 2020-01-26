@@ -78,7 +78,7 @@ class Parent_Model extends CI_Model {
 
  	}
 	
-	 public function simpan_data($data_form,$nama_tabel,$primary_key,$id){
+	public function simpan_data($data_form,$nama_tabel,$primary_key,$id){
 
         $user_insert = $this->session->userdata('username');
         $date_insert = date('Y-m-d H:i:s');
@@ -99,4 +99,25 @@ class Parent_Model extends CI_Model {
         }
 
     }
+
+    public function simpan_data_dat($data_form,$nama_tabel,$primary_key,$id){
+
+        $data_form['created_at'] = date('Y-m-d H:i:s');
+        $data_form['updated_at'] = date('Y-m-d H:i:s');
+        
+        if ($id === NULL || $id == '') { 
+            $this->db->set($data_form);
+            return $this->db->insert($nama_tabel);
+           
+        } else {
+            
+            $this->db->set($data_form);
+            $this->db->where($primary_key, $id);
+            return $this->db->update($nama_tabel);
+           
+        }
+
+    }
+
+    
 }

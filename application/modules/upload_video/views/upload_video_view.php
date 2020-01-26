@@ -6,7 +6,7 @@
 	<div class="page-content">
 			<div class="page-header">
 				<div class="page-title">
-                    <h3>Data <?php echo ucwords(str_replace("_"," ",$location));?></h3>
+                    <h3>Data <?php echo set_title($location);?></h3>
                     <br>
                             <a href="javascript:void(0);" id="addmodal" class="btn btn-primary">   Tambah Data </a>
                     <br>
@@ -37,7 +37,7 @@
                         <div class="modal-body"> 
                             <form id="uploadImage" enctype="multipart/form-data" method="post">
                                 <input type="hidden" name="id" id="id"> 
-                                <input type="hidden" name="author" id="author" value="<?php echo $this->session->userdata('username'); ?>"> 
+                                <!-- <input type="text" name="author" id="author" value="<?php echo $this->session->userdata('username'); ?>">  -->
                                 <div class="form-group">
                                 <div class="col-sm-12">
                                     <div class="row">

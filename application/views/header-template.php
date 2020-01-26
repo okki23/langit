@@ -47,11 +47,14 @@
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js');?>" ></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/application.js');?>" ></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/w2ui-1.4.2.min.js');?>" ></script>
-<script src="<?php echo base_url('assets/plugins/alertify.min.js');?>" ></script>
-
+<script src="<?php echo base_url('assets/plugins/alertify.min.js');?>" ></script> 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-  
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+<link rel="stylesheet" href="https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css">
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
 
 <!--jqwidget-->
 <!--awal bagian header-->
