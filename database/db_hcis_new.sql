@@ -11,7 +11,7 @@
  Target Server Version : 100138
  File Encoding         : 65001
 
- Date: 26/01/2020 22:37:42
+ Date: 27/01/2020 06:24:29
 */
 
 SET NAMES utf8mb4;
@@ -109,7 +109,7 @@ CREATE TABLE `core_identity_user`  (
 -- Records of core_identity_user
 -- ----------------------------
 INSERT INTO `core_identity_user` VALUES ('1000D', 'irul', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-01-15 10:42:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 1, '01020501', '11111111111111111111111111111111111111212111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '10011279');
-INSERT INTO `core_identity_user` VALUES ('1000D', 'admin', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-01-26 18:10:57', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 3, '01020501', '11111111111111111111111111111111111110101111', 'ac791bb67ab2bebdb24e4fff4d411fc4', '879f3a259c483ccbd5863a71f5909479', '20130709', '99991231', '', '', '', '', '', '0', '0', '10010240');
+INSERT INTO `core_identity_user` VALUES ('1000D', 'admin', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-01-27 06:10:53', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 3, '01020501', '11111111111111111111111111111111111110101111', 'ac791bb67ab2bebdb24e4fff4d411fc4', '879f3a259c483ccbd5863a71f5909479', '20130709', '99991231', '', '', '', '', '', '0', '0', '10010240');
 
 -- ----------------------------
 -- Table structure for human_pa_md_emp_personal
@@ -184,7 +184,13 @@ CREATE TABLE `lit_el_dat_kelas`  (
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of lit_el_dat_kelas
+-- ----------------------------
+INSERT INTO `lit_el_dat_kelas` VALUES (16, 1, '10110348', '1', '-', '2020-01-27', '2020-01-26 18:20:49', '2020-01-26 18:20:49');
+INSERT INTO `lit_el_dat_kelas` VALUES (17, 1, '10010240', '2', '-', '2020-01-27', '2020-01-27 00:23:01', '2020-01-27 00:23:01');
 
 -- ----------------------------
 -- Table structure for lit_el_dat_kelas_modul
@@ -284,7 +290,7 @@ CREATE TABLE `lit_logging`  (
   `waktu` datetime(0) NOT NULL,
   `isread` set('0','1') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of lit_logging
@@ -331,6 +337,7 @@ INSERT INTO `lit_logging` VALUES (39, 'admin', '::1', 'login::login', 'select us
 INSERT INTO `lit_logging` VALUES (40, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-01-25 21:04:01', '0');
 INSERT INTO `lit_logging` VALUES (41, 'admin', '127.0.0.1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-01-26 06:50:00', '0');
 INSERT INTO `lit_logging` VALUES (42, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-01-26 18:10:57', '0');
+INSERT INTO `lit_logging` VALUES (43, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-01-27 06:10:53', '0');
 
 -- ----------------------------
 -- Table structure for lit_pms_dat_perilaku

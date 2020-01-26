@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Daftar_pembelajaran extends Parent_Controller { 
+class setuju_pembelajaran extends Parent_Controller { 
 
 	var $nama_tabel = 'lit_el_dat_kelas'; 
 	var $daftar_field = array('id','id_kelas','personnel_id','isapproveatasan','ket_atasan','tanggal_daftar','created_at','updated_at');
@@ -9,7 +9,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 
 	public function __construct(){
 		parent ::__construct(); 
-		$this->load->model('m_daftar_pembelajaran');
+		$this->load->model('m_setuju_pembelajaran');
 	} 
 
 	public function index()	{ 
@@ -36,7 +36,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 		}
 		$error = '';
         $location = $this->uri->segment(1);
-		$data_employee = $this->m_daftar_pembelajaran->get_all_daftar_pembelajaran();
+		$data_employee = $this->m_setuju_pembelajaran->get_all_setuju_pembelajaran();
 		$select_karyawan = $this->db->get("human_pa_md_emp_personal")->result();
 		$select_kelas = $this->db->get("lit_el_kelas")->result();
 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
@@ -50,16 +50,16 @@ class Daftar_pembelajaran extends Parent_Controller {
 					  'select_kelas'=>$select_kelas,
 					  'footer'=>'© 2016. Langit Infotama');		
 	 		
-		$this->load->view('daftar_pembelajaran/daftar_pembelajaran_view',$data); 
+		$this->load->view('setuju_pembelajaran/setuju_pembelajaran_view',$data); 
 		 
 	} 
 
-	public function fetch_daftar_pembelajaran(){
-		$getdata = $this->m_daftar_pembelajaran->fetch_daftar_pembelajaran();
+	public function fetch_setuju_pembelajaran(){
+		$getdata = $this->m_setuju_pembelajaran->fetch_setuju_pembelajaran();
 		echo json_encode($getdata);
 	}
 
-	public function get_data_edit()
+	public function get_data()
 	{
 		$id = $this->uri->segment(3);
 		$sql = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" else "Yes" end as status from lit_el_dat_kelas a
@@ -83,9 +83,9 @@ class Daftar_pembelajaran extends Parent_Controller {
 
 	public function simpan_data()
 	{ 
-		$data_form = $this->m_daftar_pembelajaran->array_from_post($this->daftar_field); 
+		$data_form = $this->m_setuju_pembelajaran->array_from_post($this->daftar_field); 
 		$id = isset($data_form['id']) ? $data_form['id'] : NULL;   
-		$data_form['isapproveatasan'] = 0;
+		$data_form['isapproveatasan'] = 2;
 		$data_form['ket_atasan'] = "-"; 
 		
 		//cek apabila data sudah tersedia atau belum
@@ -95,7 +95,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 		if($cek > 0){
 			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'duplicate!'));
 		}else{
-			$simpan_data = $this->m_daftar_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
+			$simpan_data = $this->m_setuju_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
 		 
 			if ($simpan_data) {
 				$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
@@ -106,4 +106,26 @@ class Daftar_pembelajaran extends Parent_Controller {
 		} 
 		echo json_encode($result, TRUE);
 	} 
+
+	public function approve(){
+		$data_form = $this->m_setuju_pembelajaran->array_from_post($this->daftar_field); 
+		$update = $this->db->set('isapproveatasan','1')->where('id',$data_form['id'])->update($this->nama_tabel);
+		if ($update) {
+			$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
+		} else {
+			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'failed')); 
+		}
+		echo json_encode($result, TRUE);
+	}
+
+	public function reject(){
+		$data_form = $this->m_setuju_pembelajaran->array_from_post($this->daftar_field); 
+		$update = $this->db->set('isapproveatasan','2')->where('id',$data_form['id'])->update($this->nama_tabel);
+		if ($update) {
+			$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
+		} else {
+			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'failed')); 
+		}
+		echo json_encode($result, TRUE);
+	}
 }

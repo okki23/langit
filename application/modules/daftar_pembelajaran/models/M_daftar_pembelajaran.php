@@ -13,7 +13,7 @@ class M_daftar_pembelajaran extends Parent_Model {
 
 	public function fetch_daftar_pembelajaran()
 	{ 
-	   $getdata = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" else "Yes" end as status from lit_el_dat_kelas a
+	   $getdata = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" when 0 then "New" else "Yes" end as status from lit_el_dat_kelas a
 	   left join human_pa_md_emp_personal b on b.personnel_id = a.personnel_id
 	   left join lit_tab_posisi c on c.personnel_id = b.personnel_id
 	   left join lit_el_kelas d on d.id = a.id_kelas')->result();
