@@ -86,12 +86,23 @@ class Daftar_pembelajaran extends Parent_Controller {
 		$data_form = $this->m_daftar_pembelajaran->array_from_post($this->daftar_field); 
 		$id = isset($data_form['id']) ? $data_form['id'] : NULL;   
 		$data_form['isapproveatasan'] = 2;
-		$data_form['ket_atasan'] = "-";
-		$simpan_data = $this->m_daftar_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
-		if ($simpan_data) {
-			$result = array("response" => array('message' => 'success'));
-		} else {
-			$result = array("response" => array('message' => 'failed'));
+		$data_form['ket_atasan'] = "-"; 
+		
+		//cek apabila data sudah tersedia atau belum
+		$filter = array('id_kelas'=>$data_form['id_kelas'],'personnel_id'=>$data_form['personnel_id']);
+		$cek = $this->db->where($filter)->get($this->nama_tabel)->num_rows(); 	
+
+		if($cek > 0){
+			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'duplicate!'));
+		}else{
+			$simpan_data = $this->m_daftar_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
+		 
+			if ($simpan_data) {
+				$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
+			} else {
+				$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'failed')); 
+			}
+
 		} 
 		echo json_encode($result, TRUE);
 	} 

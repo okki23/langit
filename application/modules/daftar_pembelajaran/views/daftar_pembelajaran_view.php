@@ -98,7 +98,8 @@
     </div>
  
 </body> 
-<script type="text/javascript">	  
+<script type="text/javascript">
+ 
     var placeholder = "Pilih";
 	$( ".select2-single, .select2-multiple" ).select2( {
     placeholder: placeholder,
@@ -120,10 +121,16 @@
              contentType: false,
              processData: false,
              success: function(result) {
-                 $("#defaultModal").modal('hide');
-                 $('#example').DataTable().ajax.reload();
-                 Bersihkan_Form();
-                 $('#formdata')[0].reset(); 
+                 var parse = JSON.parse(result); 
+                 if(parse.response.status == 'NOK'){
+                    sweetAlert("Gagal", "TIDAK DAPAT MENYIMPAN DATA YANG SAMA!", "error"); //The error will display
+                 }else{
+                    $("#defaultModal").modal('hide');
+                    $('#example').DataTable().ajax.reload();
+                    Bersihkan_Form();
+                    $('#formdata')[0].reset(); 
+                    sweetAlert("Berhasil", "Data Berhasil Disimpan!", "success"); 
+                 }  
              }
          });
     }
@@ -164,26 +171,38 @@
 
     }
 
-    function Hapus_Data(id) {
-         if (confirm('Anda yakin ingin menghapus data ini?')) {
-             // ajax delete data to database
-             $.ajax({
-                 url: "<?php echo base_url('daftar_pembelajaran/hapus_data') ?>/" + id,
-                 type: "GET",
-                 dataType: "JSON",
-                 success: function(data) { 
-                     $('#example').DataTable().ajax.reload();  
-                 },
-                 error: function(jqXHR, textStatus, errorThrown) {
-                     alert('Error deleting data');
-                 }
-             });
-
-         }
-     } 
-
-
-
+    function Hapus_Data(id) { 
+        sweetAlert({
+        title: "Anda yakin ingin menghapus item ini?",
+        text: "ini akan menghapus item dari daftar anda !",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonText: "Tidak",
+        closeOnConfirm: false,
+        closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                $.ajax(
+                    { 
+                      url: "<?php echo base_url('daftar_pembelajaran/hapus_data') ?>/" + id, 
+                      type: "GET",
+                      dataType: "JSON",
+                      success: function(data){
+                      }
+                    }
+                ).done(function(data) {
+                    sweetAlert("Item Dihapus!", "Item berhasil dihapus", "success");
+                    $('#example').DataTable().ajax.reload();  
+                    }); 
+            }else{
+                sweetAlert("Batal", "Data Tidak Dihapus!", "info");
+          }
+        });  
+ 
+     }  
 </script>
  
 </div>

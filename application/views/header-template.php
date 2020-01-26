@@ -56,6 +56,9 @@
 <link rel="stylesheet" href="https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css">
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
 
+<link rel="stylesheet" href="<?php echo base_url('assets/sweetalert.min.css');?>">
+<script type="text/javascript" charset="utf8" src="<?php echo base_url('assets/sweetalert.min.js');?>"></script>
+
 <!--jqwidget-->
 <!--awal bagian header-->
 
