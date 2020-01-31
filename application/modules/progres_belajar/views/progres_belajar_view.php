@@ -18,14 +18,9 @@
             <thead>
                 <tr>
                     <th style="width:5%; text-align:center;">No</th>
-                    <th style="width:5%; text-align:center;">Personnel ID</th>
-                    <th style="width:5%; text-align:center;">NIK</th> 
-                    <th style="width:10%; text-align:center;">Nama Karyawan</th> 
-                    <th style="width:10%; text-align:center;">Posisi</th> 
-                    <th style="width:10%; text-align:center;">Kelas</th> 
-                    <th style="width:10%; text-align:center;">Tanggal Daftar</th> 
-                    <th style="width:10%; text-align:center;">Status</th> 
-                    <th style="width:20%; text-align:center;">Opsi</th>
+                    <th style="width:5%; text-align:center;">Kelas</th> 
+                    <th style="width:20%; text-align:center;">Progress</th> 
+                    <th style="width:5%; text-align:center;">Opsi</th>
                 </tr>
             </thead>
         </table>
@@ -129,13 +124,13 @@
 
     $(".datepicker").datepicker("option","dateFormat","yy-mm-dd");
     $('#example').DataTable({
-             "ajax": "<?php echo base_url(); ?>daftar_pembelajaran/fetch_daftar_pembelajaran",
+             "ajax": "<?php echo base_url(); ?>progres_belajar/fetch_progres_belajar",
              "destroy":true
     });  
     function Simpan_Data() { 
          var formData = new FormData($('#formdata')[0]);  
          $.ajax({
-             url: "<?php echo base_url(); ?>daftar_pembelajaran/simpan_data",
+             url: "<?php echo base_url(); ?>progres_belajar/simpan_data",
              type: "POST",
              data: formData,
              contentType: false,
@@ -168,7 +163,7 @@
          $("#defaultModal").modal('show');
 
          $.ajax({
-             url: "<?php echo base_url(); ?>daftar_pembelajaran/get_data_edit/" + id,
+             url: "<?php echo base_url(); ?>progres_belajar/get_data_edit/" + id,
              type: "GET",
              dataType: "JSON",
              success: function(result) { 
@@ -207,7 +202,7 @@
             if (isConfirm) {
                 $.ajax(
                     { 
-                      url: "<?php echo base_url('daftar_pembelajaran/hapus_data') ?>/" + id, 
+                      url: "<?php echo base_url('progres_belajar/hapus_data') ?>/" + id, 
                       type: "GET",
                       dataType: "JSON",
                       success: function(data){

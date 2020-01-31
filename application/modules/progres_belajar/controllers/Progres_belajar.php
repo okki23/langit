@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Daftar_pembelajaran extends Parent_Controller { 
+class Progres_belajar extends Parent_Controller { 
 
 	var $nama_tabel = 'lit_el_dat_kelas'; 
 	var $daftar_field = array('id','id_kelas','personnel_id','isapproveatasan','ket_atasan','tanggal_daftar','created_at','updated_at');
@@ -9,7 +9,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 
 	public function __construct(){
 		parent ::__construct(); 
-		$this->load->model('m_daftar_pembelajaran');
+		$this->load->model('m_progres_belajar');
 	} 
 
 	public function index()	{ 
@@ -36,7 +36,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 		}
 		$error = '';
         $location = $this->uri->segment(1);
-		$data_employee = $this->m_daftar_pembelajaran->get_all_daftar_pembelajaran();
+		$data_employee = $this->m_progres_belajar->get_all_progres_belajar();
 		$select_karyawan = $this->db->get("human_pa_md_emp_personal")->result();
 		$select_kelas = $this->db->get("lit_el_kelas")->result();
 		//get user active when session is not admin 
@@ -53,15 +53,32 @@ class Daftar_pembelajaran extends Parent_Controller {
 					  'select_kelas'=>$select_kelas,
 					  'footer'=>'© 2016. Langit Infotama');		
 	 		
-		$this->load->view('daftar_pembelajaran/daftar_pembelajaran_view',$data); 
+		$this->load->view('progres_belajar/progres_belajar_view',$data); 
 		 
 	} 
 
-	public function fetch_daftar_pembelajaran(){
-		$getdata = $this->m_daftar_pembelajaran->fetch_daftar_pembelajaran();
+	public function fetch_progres_belajar(){
+		$getdata = $this->m_progres_belajar->fetch_progres_belajar();
 		echo json_encode($getdata);
 	}
 
+	public function iyes(){
+		$d1 = $this->db->query("select a.*,b.nm_kelas,c.`status`,count(c.`status`) as allmodules
+	    from lit_el_dat_kelas a
+		left join lit_el_kelas b on b.id = a.id_kelas
+		left join lit_el_dat_kelas_modul c on c.kelas_id = b.id  
+		where a.personnel_id = '10011279' GROUP BY a.id_kelas
+		")->result();
+		foreach($d1 as $k=>$v){
+			$d2 = $this->db->query("select count(z.status) as totalread from lit_el_dat_kelas_modul z
+			left join lit_el_dat_kelas x on x.id_kelas = z.kelas_id
+			where z.status = 1 and x.personnel_id = 10011279 and x.id_kelas = '".$v->id_kelas."' ")->result();
+			foreach($d2 as $kk=>$vv){
+				echo $v->nm_kelas. " - ".$vv->totalread. " - ".$v->allmodules. " progress = ".ceil((@($vv->totalread / $v->allmodules)*100))."<br>";
+			}
+			
+		}
+	}
 	public function get_data_edit()
 	{
 		$id = $this->uri->segment(3);
@@ -86,7 +103,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 
 	public function simpan_data()
 	{ 
-		$data_form = $this->m_daftar_pembelajaran->array_from_post($this->daftar_field); 
+		$data_form = $this->m_progres_belajar->array_from_post($this->daftar_field); 
 		$id = isset($data_form['id']) ? $data_form['id'] : NULL;   
 		$data_form['isapproveatasan'] = 0;
 		$data_form['ket_atasan'] = "-"; 
@@ -98,7 +115,7 @@ class Daftar_pembelajaran extends Parent_Controller {
 		if($cek > 0){
 			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'duplicate!'));
 		}else{
-			$simpan_data = $this->m_daftar_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
+			$simpan_data = $this->m_progres_belajar->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
 		 
 			if ($simpan_data) {
 				$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
