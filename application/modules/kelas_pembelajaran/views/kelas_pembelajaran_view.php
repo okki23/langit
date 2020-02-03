@@ -6,7 +6,22 @@
 	<div class="page-content">
 			<div class="page-header">
 				<div class="page-title">                
-                    <h3>Data <?php echo set_title($location);?></h3> 
+                    <h3>Data <?php echo set_title($location);?></h3>
+                    <?php
+                    if($this->session->userdata('username') == 'admin'){
+                    ?>  
+                        <a href="javascript:void(0);" id="addmodal" class="btn btn-primary">   Tambah Data </a>
+                    <?php
+                    }else{
+                    ?>
+                         
+                    <?php
+                    }
+                    ?>
+                    <br>
+                            
+                    <br>
+                    &nbsp;
 				</div>
 			</div>
 		<!-- /sidebar -->
@@ -14,9 +29,10 @@
             <thead>
                 <tr>
                     <th style="width:5%; text-align:center;">No</th>
-                    <th style="width:5%; text-align:center;">Kelas</th> 
-                    <th style="width:20%; text-align:center;">Progress</th> 
-                    <th style="width:5%; text-align:center;">Opsi</th>
+                    <th style="width:5%; text-align:center;">Nama Kelas</th>
+                    <th style="width:5%; text-align:center;">Tanggal Dibuka</th> 
+                    <th style="width:10%; text-align:center;">Is Active</th>  
+                    <th style="width:20%; text-align:center;">Opsi</th>
                 </tr>
             </thead>
         </table>
@@ -34,63 +50,33 @@
                             <form id="formdata" enctype="multipart/form-data" method="post">
                                 <input type="hidden" name="id" id="id"> 
                                 <div class="form-group">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                    <?php
-                                    if($this->session->userdata('username') == 'admin'){
-                                    ?>
-
-                                        <div class="col-sm-12">
-                                            <label>Nama Karyawan:</label>
-                                            <select id="personnel_id" name="personnel_id" class="form-control select2-single"> 
-                                            <option></option>
-                                            <?php 
-                                                foreach($select_karyawan as $keys=>$values){
-                                                echo "<option value='".$values->personnel_id."'> ".$values->name_full." </option>";
-                                                }
-                                            ?> 
-                                            </select>
-                                        </div>
-                                        <br>
-                                        &nbsp;
-                                    <?php
-                                    }else{
-                                    ?> 
-
-                                        <div class="col-sm-12">
-                                            <label>Nama Karyawan:</label>
-                                            <select id="personnel_id" name="personnel_id" class="form-control select2-single"> 
-                                            <option value="<?php echo $this->session->userdata('ses_personnel_id'); ?>"> <?php echo $this->session->userdata('username'); ?> </option>
-                                            </select>
-                                           
-                                        </div>
-                                        <br>
-                                        &nbsp;
-                                    <?php
-                                    }
-                                    ?> 
-                                    </div>
+                                <div class="col-sm-12"> 
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>Nama Kelas Pembelajaran:</label>
-                                            <select id="id_kelas" name="id_kelas" class="form-control select2-single"> 
-                                            <option></option>
-                                            <?php 
-                                                foreach($select_kelas as $keys=>$values){
-                                                echo "<option value='".$values->id."'> ".$values->nm_kelas." </option>";
-                                                }
-                                            ?> 
-                                            </select>
-                                        </div> 
-                                        <br>
-                                        &nbsp;
-                                    </div> 
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label>Tanggal Daftar:</label>
-                                            <input type="text" name="tanggal_daftar" id="tanggal_daftar" class="datepicker form-control">
+                                            <label>Nama Kelas:</label>
+                                            <input type="text" name="nm_kelas" id="nm_kelas" class="form-control">
                                         </div> 
                                     </div>   
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label>Tanggal Dibuka:</label>
+                                            <input type="text" name="tgl_dibuka" id="tgl_dibuka" class="datepicker form-control">
+                                        </div> 
+                                    </div>   
+                                    <div class="row">
+                                    
+                                    <div class="col-sm-12">
+                                        <label>Is Active:</label> 
+                                        <select id="isactive" name="isactive" class="form-control select2-single select2-offscreen" title="" tabindex="-1"> 
+                                        <option></option>
+                                        <option value="0"> Tidak Aktif </option>
+                                        <option value="1"> Aktif </option>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    &nbsp;
+                                 
+                                </div>
                                     <br>
                                     &nbsp;
  
@@ -120,13 +106,13 @@
 
     $(".datepicker").datepicker("option","dateFormat","yy-mm-dd");
     $('#example').DataTable({
-             "ajax": "<?php echo base_url(); ?>progres_belajar/fetch_progres_belajar",
+             "ajax": "<?php echo base_url(); ?>kelas_pembelajaran/fetch_kelas_pembelajaran",
              "destroy":true
     });  
     function Simpan_Data() { 
          var formData = new FormData($('#formdata')[0]);  
          $.ajax({
-             url: "<?php echo base_url(); ?>progres_belajar/simpan_data",
+             url: "<?php echo base_url(); ?>kelas_pembelajaran/simpan_data",
              type: "POST",
              data: formData,
              contentType: false,
@@ -159,27 +145,22 @@
          $("#defaultModal").modal('show');
 
          $.ajax({
-             url: "<?php echo base_url(); ?>progres_belajar/get_data_edit/" + id,
+             url: "<?php echo base_url(); ?>kelas_pembelajaran/get_data_edit/" + id,
              type: "GET",
              dataType: "JSON",
              success: function(result) { 
                  $("#defaultModal").modal('show');
                  $("#id").val(result.id); 
-                 $("#tanggal_daftar").val(result.tanggal_daftar);
-                 $("#personnel_id").select2().select2('val',result.personnel_id);
-                 $("#id_kelas").select2().select2('val',result.id_kelas);
+                 $("#tgl_dibuka").val(result.tgl_dibuka);
+                 $("#nm_kelas").val(result.nm_kelas);
+                 $("#isactive").select2().select2('val',result.isactive); 
              }
          });
      }
 
     function Bersihkan_Form() {
-         $(':input').val('');
-         $("#personnel_id").select2().select2('val','');
-         $("#id_kelas").select2().select2('val','');
-         $('#upload').attr('disabled',false);
-         $('.myprogress').css('width', '0');
-         $('.msg').text('');
-
+         $(':input').val(''); 
+         $("#isactive").select2().select2('val','');  
     }
 
     function Hapus_Data(id) { 
@@ -198,7 +179,7 @@
             if (isConfirm) {
                 $.ajax(
                     { 
-                      url: "<?php echo base_url('progres_belajar/hapus_data') ?>/" + id, 
+                      url: "<?php echo base_url('kelas_pembelajaran/hapus_data') ?>/" + id, 
                       type: "GET",
                       dataType: "JSON",
                       success: function(data){

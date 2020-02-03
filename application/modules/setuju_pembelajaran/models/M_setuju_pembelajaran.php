@@ -13,10 +13,17 @@ class M_setuju_pembelajaran extends Parent_Model {
 
 	public function fetch_setuju_pembelajaran()
 	{ 
-	   $getdata = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" else "Yes" end as status from lit_el_dat_kelas a
-	   left join human_pa_md_emp_personal b on b.personnel_id = a.personnel_id
-	   left join lit_tab_posisi c on c.personnel_id = b.personnel_id
-	   left join lit_el_kelas d on d.id = a.id_kelas')->result();
+	   if($this->session->userdata('username') == 'admin'){
+			$getdata = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" else "Yes" end as status from lit_el_dat_kelas a
+			left join human_pa_md_emp_personal b on b.personnel_id = a.personnel_id
+			left join lit_tab_posisi c on c.personnel_id = b.personnel_id
+			left join lit_el_kelas d on d.id = a.id_kelas')->result();
+	   }else{
+			$getdata = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" else "Yes" end as status from lit_el_dat_kelas a
+			left join human_pa_md_emp_personal b on b.personnel_id = a.personnel_id
+			left join lit_tab_posisi c on c.personnel_id = b.personnel_id
+			left join lit_el_kelas d on d.id = a.id_kelas where a.personnel_id = "'.$this->session->userdata('ses_personnel_id').'" ')->result();
+	   } 
 	   $data = array();
 	   $no = 1;
 	   foreach ($getdata as $row) {
