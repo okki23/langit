@@ -58,7 +58,11 @@
 
 <link rel="stylesheet" href="<?php echo base_url('assets/sweetalert.min.css');?>">
 <script type="text/javascript" charset="utf8" src="<?php echo base_url('assets/sweetalert.min.js');?>"></script>
-
+<!-- TinyMCE -->
+<script src="<?php echo base_url(); ?>assets/plugins/tinymce/tinymce.js"></script>
+<script src="<?php echo base_url('assets/plugins/elFinder/js/elfinder.min.js'); ?>"></script>
+<link href="<?php echo base_url('assets/plugins/elFinder/css/theme.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('assets/plugins/elFinder/css/elfinder.min.css'); ?>" rel="stylesheet">
 <!--jqwidget-->
 <!--awal bagian header-->
 

@@ -102,6 +102,9 @@ class Upload_video extends Parent_Controller {
 		$id = isset($data_form['id']) ? $data_form['id'] : NULL;  
 		$data_form['author'] = $this->session->userdata('username');
 		$simpan_data = $this->m_upload_video->simpan_data($data_form, $this->nama_tabel, $this->primary_key, $id);
+		$insert_id = $this->db->insert_id(); 
+		var_dump($insert_id);
+		die();
 		if ($simpan_data) {
 			$result = array("response" => array('message' => 'success'));
 		} else {
