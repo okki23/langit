@@ -250,17 +250,21 @@ function get_filesize(url, callback) {
     });  
 
     function Simpan_Data() { 
-         var formData = new FormData($('#MateriVideo')[0]); 
+        var id = $("#id").val();
+        var kelas_id = $("#kelas_id").val();
+        var nm_modul = $("#nm_modul").val();
+        var status = $("#status").val(); 
+        var materi = tinymce.get('materi').getContent(); 
          $.ajax({
              url: "<?php echo base_url(); ?>materi_video/simpan_data",
              type: "POST",
-             data: formData,
-             contentType: false,
-             processData: false,
+             data: {id:id,kelas_id:kelas_id,nm_modul:nm_modul,status:status,materi:materi}, 
+             dataType:"json",
              success: function(result) {
                  $("#defaultModal").modal('hide');
                  $('#example').DataTable().ajax.reload();
-                 Bersihkan_Form();
+                 Bersihkan_Form(); 
+                 tinymce.activeEditor.setContent('');
                  $('#MateriVideo')[0].reset(); 
              }
          });
@@ -297,10 +301,8 @@ function get_filesize(url, callback) {
 
     function Bersihkan_Form() {
          $(':input').val('');
-         $('#upload').attr('disabled',false);
-         $('.myprogress').css('width', '0');
-         $('.msg').text('');
-
+         $("#kelas_id").select2().select2('val','');
+         $("#status").select2().select2('val',''); 
     }
 
     function Hapus_Data(id) {
