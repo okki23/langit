@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Materi_video extends Parent_Controller { 
 
 	var $nama_tabel = 'lit_el_kelas_modul'; 
-	var $daftar_field = array('id','nm_modul','materi','kelas_id','status','created_at','updated_at');
+	var $daftar_field = array('id','nm_modul','materi','kelas_id','pathfile','status','created_at','updated_at');
 	var $primary_key = 'id';
 
 	public function __construct(){
@@ -101,4 +101,17 @@ class Materi_video extends Parent_Controller {
 		} 
 		echo json_encode($result, TRUE);
 	} 
+
+	function savefilemateri(){
+		if($_FILES["file"]["name"] != ''){ 
+			$location = './file_manager_dir/' . str_replace(" ","_",$_FILES["file"]["name"]); 
+			$upload = move_uploaded_file(str_replace(" ","_",$_FILES["file"]["tmp_name"]), $location);  
+				 if($upload){
+					$data = array("status"=>"OK","code"=>200,"message"=>"Successfully");
+				 }else{
+					$data = array("status"=>"NOT OK","code"=>200,"message"=>"Failed");
+				 }
+				 echo json_encode($data,true);
+			}
+	}
 }

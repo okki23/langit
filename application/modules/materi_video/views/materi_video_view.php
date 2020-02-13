@@ -19,10 +19,9 @@
                 <tr>
                     <th style="width:5%;">No</th>
                     <th style="width:10%;">Nama Kelas</th>
-                    <th style="width:10%;">Nama Modul</th>
-                    <th style="width:10%;">Materi</th> 
+                    <th style="width:10%;">Nama Modul</th> 
                     <th style="width:5%;">Status</th> 
-                    <th style="width:10%;">Opsi</th>
+                    <th style="width:20%;">Opsi</th>
                 </tr>
             </thead>
         </table>
@@ -33,8 +32,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="defaultModalLabel">Form Tambah Data</h4>
-                           
+                            <h4 class="modal-title" id="defaultModalLabel">Form Tambah Data</h4> 
                         </div>
                         <div class="modal-body"> 
                             <form id="MateriVideo" enctype="multipart/form-data" method="post">
@@ -63,6 +61,29 @@
                                             <input type="text" name="nm_modul" id="nm_modul" class="form-control">
                                         </div> 
                                     </div>
+                                    <br> 
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                        <label>File Materi:</label>
+                                        <input type="file" name="filemateri" id="filemateri" onchange="PreviewFile(this);" />
+                                        <span class="btn btn-warning"> File Extension Only PDF / DOC/ DOCX / XLS / XLSX / PPT / PPTX </span>
+                                        <br>
+                                            &nbsp; 
+                                            <div class="exist"></div> 
+                                            <br>
+                                            &nbsp; 
+                                            <input type="hidden" name="pathfile" id="pathfile"> 
+                                            <button style="float:left; margin-left:0px;" class="btn btn-primary" type="button" name="upload" id="upload" > Upload </button>
+                                            <br>
+                                            &nbsp; 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-primary myprogress" role="progressbar" style="width:0%">0%</div>
+                                            </div>
+                                            <br>
+                                            &nbsp; 
+                                            <div class="msg"></div>   
+                                        </div> 
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label>Status:</label>
@@ -74,8 +95,7 @@
                                         </div> 
                                     </div>
                                     <br>
-                                    &nbsp;
-                                    
+                                    &nbsp; 
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label>Materi:</label>
@@ -85,8 +105,7 @@
                                     <br>
                                     &nbsp;
                                 </div>
-                                </div> 
-                                 
+                                </div>  
                                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Simpan_Data();">  Simpan </button>
                                 <button type="button" name="cancel" id="cancel" class="btn btn-danger" data-dismiss="modal"> Batal</button>
                                 <br>
@@ -97,6 +116,32 @@
                     </div>
                 </div>
     </div>
+
+
+	<!-- detail materi -->
+	<div class="modal fade" id="DetailModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Detail Materi</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div align="center">
+                            <div class="row">
+                            <h3> Isi Materi </h3> 
+                            <div class="col-md-12">
+                                <div id="parsedata"></div>       
+                            </div>                    
+                            </div>                    
+					   </div>
+                       <div class="modal-footer">
+							  <button type="button" class="btn btn-danger" data-dismiss="modal"> X Tutup </button>
+						</div>
+                     
+                    </div>
+                </div>
+    </div>
+     
  
 </body>
 
@@ -110,39 +155,30 @@ function elFinderBrowser(callback, value, meta) {
         resizable: 'yes'
     }, {
         oninsert: function (file, elf) {
-            var url, reg, info;
-
+            var url, reg, info; 
             // URL normalization
-            url = file;
-
+            url = file; 
             reg = "\/[^/]+?\/\.\.\/";
             while (url.match(reg)) {
                 url = url.replace(reg, '/');
-            }
-
-            var split_info = file.split("/");
-
-            var filename = split_info[split_info.length - 1];
-            
+            }   
+            var split_info = file.split("/"); 
+            var filename = split_info[split_info.length - 1]; 
             var getsize = 0;
             get_filesize(file, function (size) {
                 //alert("The size of " + filename + " is: " + size + " bytes.");
                 getsize = size;
-            });
-            
+            }); 
             // Make file info
-            info = filename + ' (' + elf.formatSize(getsize) + ')';
-
+            info = filename + ' (' + elf.formatSize(getsize) + ')'; 
             // Provide file and text for the link dialog
             if (meta.filetype == 'file') {
                 callback(url, {text: info, title: info});
-            }
-
+            } 
             // Provide image and alt text for the image dialog
             if (meta.filetype == 'image') {
                 callback(url, {alt: info});
-            }
-
+            } 
             // Provide alternative source and posted for the media dialog
             if (meta.filetype == 'media') {
                 callback(url);
@@ -173,9 +209,7 @@ tinymce.init({
 
 toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | media',
     file_picker_callback: elFinderBrowser
-});
-
- 
+}); 
 
 function get_filesize(url, callback) {
     var xhr = new XMLHttpRequest();
@@ -198,24 +232,23 @@ function get_filesize(url, callback) {
         if (input.files && input.files[0]){
             var reader = new FileReader(); 
             reader.onload = function (e) {
-                var tmp = $('#pathfilex').val().replace(/C:\\fakepath\\/i, ''); 
+                var tmp = $('#filemateri').val().replace(/C:\\fakepath\\/i, ''); 
                 $("#pathfile").val(tmp.replace(' ','_'));
             };
             reader.readAsDataURL(input.files[0]); 
         }
     } 
     $("#upload").on("click",function(){ 
-	var file_data = $("#pathfilex").prop("files")[0];
+	var file_data = $("#filemateri").prop("files")[0];
 	var form_data = new FormData();   
-	form_data.append("file", file_data);
-    //filter here...
-    var ext = $('#pathfilex').val().split('.').pop().toLowerCase();
-    if($.inArray(ext, ['mp4','mkv','wmv','avi','webm']) == -1) {
-        alert('File yang diperbolehkan hanyalah MP4 / WEBM/ WMV / AVI / MKV saja !');
+	form_data.append("file", file_data); 
+    var ext = $('#filemateri').val().split('.').pop().toLowerCase();
+    if($.inArray(ext, ['pdf','doc','docx','xls','xlsx','ppt','pptx']) == -1) {
+        alert('File yang diperbolehkan hanyalah PDF / DOC/ DOCX / XLS / XLSX / PPT / PPTX  saja !');
     }else{
         $('#upload').attr('disabled', 'disabled');
         $.ajax({
-            url: "<?php echo base_url('materi_video/saveupload'); ?>",
+            url: "<?php echo base_url('materi_video/savefilemateri'); ?>",
             dataType: 'script',
             cache: false,
             contentType: false,
@@ -241,12 +274,10 @@ function get_filesize(url, callback) {
             },
             success:function(result){ 
                 var parse = JSON.parse(result);   
-                $('#upload').prop('disabled', false);	  
-                $(':input').val(''); 
+                $('#upload').prop('disabled', false); 
             } 
         }); 
-    } 
-	   
+    }  
     });  
 
     function Simpan_Data() { 
@@ -254,11 +285,12 @@ function get_filesize(url, callback) {
         var kelas_id = $("#kelas_id").val();
         var nm_modul = $("#nm_modul").val();
         var status = $("#status").val(); 
+        var pathfile = $("#pathfile").val(); 
         var materi = tinymce.get('materi').getContent(); 
          $.ajax({
              url: "<?php echo base_url(); ?>materi_video/simpan_data",
              type: "POST",
-             data: {id:id,kelas_id:kelas_id,nm_modul:nm_modul,status:status,materi:materi}, 
+             data: {id:id,kelas_id:kelas_id,nm_modul:nm_modul,status:status,pathfile:pathfile,materi:materi}, 
              dataType:"json",
              success: function(result) {
                  $("#defaultModal").modal('hide');
@@ -268,7 +300,7 @@ function get_filesize(url, callback) {
                  $('#MateriVideo')[0].reset(); 
              }
          });
-    }
+    } 
 
     $("#addmodal").on("click",function(){
             Bersihkan_Form();
@@ -292,9 +324,8 @@ function get_filesize(url, callback) {
                  $("#nm_modul").val(result.nm_modul); 
                  tinymce.get("materi").setContent(result.materi); 
                  $("#kelas_id").select2().select2('val',result.kelas_id); 
-                 $("#status").select2().select2('val',result.status);
-                 //$("#suratx").html("<br> <hr> File Sebelumnya : <a href='upload/"+result.file+"' target='_blank' class='btn btn-primary'> <i class='material-icons'>file_copy</i> "+result.file+" </a> <br> <hr>");
-                 $(".exist").html("File Exist : <a href='<?php echo base_url('upload'); ?>/"+result.pathfile+"' class='btn btn-primary' target='_blank'> "+result.pathfile+"  </a>");
+                 $("#status").select2().select2('val',result.status); 
+                 $(".exist").html("File Exist : <a href='<?php echo base_url('file_manager_dir'); ?>/"+result.pathfile+"' class='btn btn-primary' target='_blank'> "+result.pathfile+"  </a>");
              }
          });
      }
@@ -306,8 +337,7 @@ function get_filesize(url, callback) {
     }
 
     function Hapus_Data(id) {
-         if (confirm('Anda yakin ingin menghapus data ini?')) {
-             // ajax delete data to database
+         if (confirm('Anda yakin ingin menghapus data ini?')) { 
              $.ajax({
                  url: "<?php echo base_url('materi_video/hapus_data') ?>/" + id,
                  type: "GET",
@@ -318,15 +348,22 @@ function get_filesize(url, callback) {
                  error: function(jqXHR, textStatus, errorThrown) {
                      alert('Error deleting data');
                  }
-             });
-
+             }); 
          }
      } 
 
-
-
-</script>
- 
+     function Detail(id){ 
+		$("#DetailModal").modal({backdrop: 'static', keyboard: false,show:true});
+		$.ajax({
+			 url:"<?php echo base_url(); ?>materi_video/get_data_edit/"+id,
+			 type:"GET",
+			 dataType:"JSON", 
+			 success:function(result){   
+                 $("#parsedata").html(result.materi); 
+			 }
+		 });
+	 } 
+</script> 
 </div>
 </div>
 </html>	

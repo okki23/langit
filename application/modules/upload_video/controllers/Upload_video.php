@@ -64,7 +64,7 @@ class Upload_video extends Parent_Controller {
 
 	function saveupload(){
 		if($_FILES["file"]["name"] != ''){ 
-			$location = './upload/' . str_replace(" ","_",$_FILES["file"]["name"]); 
+			$location = './file_manager_dir/' . str_replace(" ","_",$_FILES["file"]["name"]); 
 			$upload = move_uploaded_file(str_replace(" ","_",$_FILES["file"]["tmp_name"]), $location);  
 				 if($upload){
 					$data = array("status"=>"OK","code"=>200,"message"=>"Successfully");

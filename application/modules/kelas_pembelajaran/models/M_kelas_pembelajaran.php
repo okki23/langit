@@ -35,9 +35,12 @@ class M_kelas_pembelajaran extends Parent_Model {
 								<a href="javascript:void(0)" id="delete" class="btn btn-danger" onclick="Hapus_Data(' . $row->id . ');" >  Hapus </a>
 							</div>';
 		  }else{
-			$sub_array[] = '<div style="text-align:center;">
-								<a href="javascript:void(0)" id="start" class="btn btn-success" onclick="Hapus_Data(' . $row->id . ');" >  Mulai Belajar </a>
-							</div>';
+			// $sub_array[] = '<div style="text-align:center;">
+			// 					<a href="javascript:void(0)" id="start" class="btn btn-success" onclick="Hapus_Data(' . $row->id . ');" >  Mulai Belajar </a>
+			// 				</div>';
+			$sub_array[] = '<div style="text-align:center;">  
+								<a href="'.base_url('kelas_pembelajaran/tampil_kelas').'/'.$row->id.'" class="btn btn-success"">      Mulai Belajar </a>
+		  					</div>';
 		  } 
 		  $data[] = $sub_array;
 		  $no++;

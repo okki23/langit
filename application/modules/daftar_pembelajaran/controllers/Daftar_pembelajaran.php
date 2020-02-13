@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Daftar_pembelajaran extends Parent_Controller { 
 
 	var $nama_tabel = 'lit_el_dat_kelas'; 
+	var $nama_tabel_detail = 'lit_el_dat_kelas_modul';
 	var $daftar_field = array('id','id_kelas','personnel_id','isapproveatasan','ket_atasan','tanggal_daftar','created_at','updated_at');
+	var $daftar_field_detail = array('id','id_dat_kelas','id_kelas_modul','created_at','updated_at');
 	var $primary_key = 'id';
 
 	public function __construct(){
@@ -98,8 +100,16 @@ class Daftar_pembelajaran extends Parent_Controller {
 		if($cek > 0){
 			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'duplicate!'));
 		}else{
-			$simpan_data = $this->m_daftar_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
-		 
+			$simpan_data = $this->m_daftar_pembelajaran->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);	
+
+		    $insert_id=$this->db->insert_id();
+		    // $data_form_detail=$this->m_daftar_pembelajaran->array_from_post($this->daftar_field_detail);
+		    // $id_detail = isset($data_form_detail['id']) ? $data_form_detail['id'] : NULL; 
+		    // $data_form_detail['id_dat_kelas'] = $insert_id;	
+		    // $data_form_detail['id_kelas_modul'] = $data_form['id_kelas'];
+		    // $simpan_data_detail = $this->m_daftar_pembelajaran->simpan_data_dat($data_form_detail, $this->nama_tabel_detail, $this->primary_key, $id_detail);
+		    $sqlinsert = $this->m_daftar_pembelajaran->pro_add_modul($insert_id,$data_form['id_kelas']);
+		    
 			if ($simpan_data) {
 				$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
 			} else {

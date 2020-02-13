@@ -57,6 +57,19 @@ class Kelas_pembelajaran extends Parent_Controller {
 		 
 	} 
 
+	public function tampil_kelas()	{
+		$error = '';
+		$location = $this->uri->segment(1);
+		$id_kelas = $this->uri->segment(3);
+		// echo $id_kelas;exit;
+		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
+					  'error'=>$error,
+					  'location'=>$location,
+					  'id_kelas'=>$id_kelas,					  
+					  'footer'=>'© 2019. Langit Infotama');
+		$this->load->view('kelas_karyawan_menu',$data);
+	}
+
 	public function fetch_kelas_pembelajaran(){
 		$getdata = $this->m_kelas_pembelajaran->fetch_kelas_pembelajaran();
 		echo json_encode($getdata);

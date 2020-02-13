@@ -55,6 +55,14 @@ class M_daftar_pembelajaran extends Parent_Model {
 		$query = $this->db->query("select * FROM lit_el_tab_video order by id asc");  
 		return $query;
 	}
+
+	public function pro_add_modul($insert_id,$kelas_id){
+	$query = $this->db->query("insert into lit_el_dat_kelas_modul (id_dat_kelas,id_kelas_modul)
+SELECT '$insert_id', id FROM lit_el_kelas_modul where kelas_id='$kelas_id'");
+		
+		return $query;
+
+	}
  
 	
 }
