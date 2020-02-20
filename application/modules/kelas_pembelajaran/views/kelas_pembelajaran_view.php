@@ -25,19 +25,40 @@
 				</div>
 			</div>
 		<!-- /sidebar -->
+        <?php 
+         if($this->session->userdata('username') == 'admin'){
+        ?>
         <table class="table table-bordered table-striped table-hover js-basic-example" id="example">
             <thead>
                 <tr>
                     <th style="width:5%; text-align:center;">No</th>
+                    <th style="width:5%; text-align:center;">Nama Gugus</th>
+                    <th style="width:5%; text-align:center;">Nama Sub Gugus</th>
                     <th style="width:5%; text-align:center;">Nama Kelas</th>
                     <th style="width:5%; text-align:center;">Tanggal Dibuka</th> 
                     <th style="width:10%; text-align:center;">Is Active</th>  
                     <th style="width:20%; text-align:center;">Opsi</th>
                 </tr>
             </thead>
-        </table>
-
-
+        </table> 
+        <?php 
+        }else{
+        ?>
+        <table class="table table-bordered table-striped table-hover js-basic-example" id="example">
+            <thead>
+                <tr>
+                    <th style="width:5%; text-align:center;">No</th>
+                    <th style="width:5%; text-align:center;">Nama Gugus</th>
+                    <th style="width:5%; text-align:center;">Nama Sub Gugus</th>
+                    <th style="width:5%; text-align:center;">Nama Kelas</th>
+                    <th style="width:20%; text-align:center;">Progress</th>  
+                    <th style="width:5%; text-align:center;">Opsi</th>
+                </tr>
+            </thead>
+        </table> 
+        <?php  
+        }
+        ?>
 	<!-- form tambah dan ubah data -->
 	<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
@@ -68,9 +89,35 @@
                                     <div class="col-sm-12">
                                         <label>Is Active:</label> 
                                         <select id="isactive" name="isactive" class="form-control select2-single select2-offscreen" title="" tabindex="-1"> 
-                                        <option></option>
-                                        <option value="0"> Tidak Aktif </option>
-                                        <option value="1"> Aktif </option>
+                                            <option></option>
+                                            <option value="0"> Tidak Aktif </option>
+                                            <option value="1"> Aktif </option>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    &nbsp;
+                                    <div class="col-sm-12">
+                                        <label> Gugus:</label> 
+                                        <select id="id_gugus" name="id_gugus" class="form-control select2-single select2-offscreen" title="" tabindex="-1"> 
+                                            <option></option>
+                                            <?php 
+                                            foreach($select_gugus as $k=>$v){
+                                                echo '<option value='.$v->id.'>'.$v->nm_gugus.'</option>';
+                                            }
+                                            ?> 
+                                        </select>
+                                    </div>
+                                    <br>
+                                    &nbsp;
+                                    <div class="col-sm-12">
+                                        <label> Sub Gugus:</label> 
+                                        <select id="id_sub_gugus" name="id_sub_gugus" class="form-control select2-single select2-offscreen" title="" tabindex="-1"> 
+                                            <option></option>
+                                            <?php 
+                                            foreach($select_subgugus as $ky=>$ve){
+                                                echo '<option value='.$ve->id.'>'.$ve->nm_sub_gugus.'</option>';
+                                            }
+                                            ?> 
                                         </select>
                                     </div>
                                     <br>
@@ -90,6 +137,38 @@
 							</form>
 					   </div>
                       
+                    </div>
+                </div>
+    </div>
+
+    <!-- form view -->
+	<div class="modal fade" id="ViewMateri" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="defaultModalLabel">View Materi</h4>
+                           
+                        </div>
+                        <div class="modal-body"> 
+                            <div class="row">
+                            <div class="col-lg-12">
+                            <table class="table table-bordered table-striped table-hover js-basic-examplex" id="examplex">
+                                <thead>
+                                    <tr>
+                                        <th style="width:1%; text-align:center;">No</th>
+                                        <th style="width:10%; text-align:center;">Nama Modul</th>  
+                                    </tr>
+                                </thead>
+                            </table>   
+                        </div>
+                        </div>
+                       </div>
+                       <div class="modal-footer">
+						<input type="hidden" name="iddatmodul" id="iddatmodul" class="iddatmodul">
+
+								<button type="button" class="btn btn-danger" data-dismiss="modal"> X Tutup </button>
+							</div>
+
                     </div>
                 </div>
     </div>
@@ -139,7 +218,7 @@
             $("#defaultModalLabel").html("Form Tambah Data"); 
             $(".exist").html('');
 	}); 
-
+    
     function Ubah_Data(id) {
          $("#defaultModalLabel").html("Form Ubah Data");
          $("#defaultModal").modal('show');
@@ -154,8 +233,37 @@
                  $("#tgl_dibuka").val(result.tgl_dibuka);
                  $("#nm_kelas").val(result.nm_kelas);
                  $("#isactive").select2().select2('val',result.isactive); 
+                 $("#id_gugus").select2().select2('val',result.id_gugus); 
+                 $("#id_sub_gugus").select2().select2('val',result.id_sub_gugus); 
+
              }
          });
+     }
+
+
+
+     function ViewMateri(id) {    
+        $("#ViewMateri").modal('show');
+            $('#examplex').DataTable({
+                "processing" : true,
+                "ajax" : {
+                    "url" : "<?php echo base_url('kelas_pembelajaran/get_materi/'); ?>",
+                    "type":"GET" ,  
+                    "data":{"id_kelas":id},
+                },  
+                "columns" : [{
+                    "data" : "no"
+                },{
+                    "data" : "nm_modul"
+                }],
+
+                "rowReorder": {
+                    "update": false
+                },
+
+                "destroy":true,
+            });
+     
      }
 
     function Bersihkan_Form() {

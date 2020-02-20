@@ -17,6 +17,8 @@
 					<li><a href="#"><span>Pembelajaran Elektronik Pegawai</span> <i class="icon-clipboard"></i></a>
 					<ul>
 							<li <?php if($location == 'dashboard_pembelajaran') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('dashboard_pembelajaran');?>">Dashboard Pembelajaran</a></li>
+							<li <?php if($location == 'gugus') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('gugus');?>">Gugus</a></li>
+							<li <?php if($location == 'sub_gugus') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('sub_gugus');?>">Sub Gugus</a></li>
 							<li <?php if($location == 'upload_video') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('upload_video');?>">Upload Video Pembelajaran</a></li>
 							<li <?php if($location == 'daftar_pembelajaran') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('daftar_pembelajaran');?>">Daftar Belajar</a></li>
 							<li <?php if($location == 'setuju_pembelajaran') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('setuju_pembelajaran');?>">Persetujuan Atasan</a></li>

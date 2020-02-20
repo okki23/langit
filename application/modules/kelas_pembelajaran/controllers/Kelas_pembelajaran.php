@@ -4,13 +4,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Kelas_pembelajaran extends Parent_Controller { 
 
 	var $nama_tabel = 'lit_el_kelas'; 
-	var $daftar_field = array('id','nm_kelas','tgl_dibuka','isactive','created_at','updated_at');
+	var $daftar_field = array('id','id_gugus','id_sub_gugus','nm_kelas','tgl_dibuka','isactive','created_at','updated_at');
 	var $primary_key = 'id';
 
 	public function __construct(){
 		parent ::__construct(); 
 		$this->load->model('m_kelas_pembelajaran');
-	} 
+	}  
+	// public function get_materi(){
+	// 	$id = $this->input->get('id_kelas');
+	// 	$sql = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.pathfile from lit_el_dat_kelas a
+	// 	left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+	// 	left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+	// 	  where a.id = '".$id."' ")->result();
+ 
+	// 	$no = 1;
+	// 	$dataparse = array();  
+	// 	foreach ($sql as $key => $value) {   
+	// 			$sub_array['no'] = $no;
+	// 			$sub_array['nm_modul'] = $value->nm_modul; 		 
+	// 		array_push($dataparse,$sub_array); 
+	// 		$no++;
+		 	   
+	// 	}
+	//  echo json_encode(array("data"=>$dataparse)); 
+	// }
+
+	public function get_materi(){ 
+		$id_kelas = $this->input->get('id_kelas');  
+		$getdata = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.pathfile from lit_el_dat_kelas a
+	left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+	left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+	 where a.id = '".$id_kelas."'")->result();
+		$data = array();
+	   
+		$no = 1;
+		$dataparse = array();  
+		foreach ($getdata as $key => $value) {   
+				$sub_array['no'] = $no;
+				$sub_array['nm_modul'] = $value->nm_modul;   
+			array_push($dataparse,$sub_array); 
+			$no++; 
+		}
+	 echo json_encode(array("data"=>$dataparse));
+	}
 
 	public function index()	{ 
 		$valid = $this->lit_app_lib->CheckAuthoritation(0);		
@@ -39,6 +76,8 @@ class Kelas_pembelajaran extends Parent_Controller {
 		$data_employee = $this->m_kelas_pembelajaran->get_all_kelas_pembelajaran();
 		$select_karyawan = $this->db->get("human_pa_md_emp_personal")->result();
 		$select_kelas = $this->db->get("lit_el_kelas")->result();
+		$select_gugus = $this->db->get("lit_el_tab_gugus")->result();
+		$select_subgugus = $this->db->get("lit_el_tab_gugus_sub")->result();
 		//get user active when session is not admin 
 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 					  'error'=>$error,
@@ -51,21 +90,81 @@ class Kelas_pembelajaran extends Parent_Controller {
 					  'flagDel'=>$flagDel,
 					  'select_karyawan'=>$select_karyawan,
 					  'select_kelas'=>$select_kelas,
+					  'select_gugus'=>$select_gugus,
+					  'select_subgugus'=>$select_subgugus,
 					  'footer'=>'© 2016. Langit Infotama');		
 	 		
 		$this->load->view('kelas_pembelajaran/kelas_pembelajaran_view',$data); 
 		 
 	} 
 
+	public function finish_belajar(){
+		$datkelas = $this->input->post('datkelas');
+		$this->db->query("update lit_el_dat_kelas_modul set status = 1 where id = '".$datkelas."' ");
+	}
+
+	public function listing_modul_kelas(){ 
+		$id_dat = $this->input->get('id_dat');  
+		$getdata = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.pathfile from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+		  where a.id = '".$id_dat."' ")->result();
+		$data = array();
+	   
+		$no = 1;
+		$dataparse = array();  
+		foreach ($getdata as $key => $value) {   
+				$sub_array['no'] = $no;
+				$sub_array['nm_modul'] = $value->nm_modul;  
+				$sub_array['status'] = $value->status; 
+				if($value->status != 1){
+					$sub_array['action'] = $sub_array[] = '<div style="text-align:center;">
+														   <a href="'.base_url('file_manager_dir/'.$value->pathfile).'" target="_blank" id="modul" class="btn btn-danger"  >  Download Modul </a>
+														   <a href="javascript:void(0)" id="btnbelajar" class="btn btn-danger" onclick="Pelajari(' . $value->iddatmodul . ');" >  Pelajari </a>
+													</div>';
+				}else{
+					$sub_array['action'] = $sub_array[] = '<div style="text-align:center;">
+														   <a href="'.base_url('file_manager_dir/'.$value->pathfile).'" target="_blank" id="modul" class="btn btn-danger"  >  Download Modul </a>
+														   <a href="javascript:void(0)" id="btnbelajar" class="btn btn-success" onclick="Pelajari(' . $value->iddatmodul . ');" >  Sudah Dipelajari </a>
+													</div>';
+				} 
+			array_push($dataparse,$sub_array); 
+			$no++; 
+		}
+	 echo json_encode(array("data"=>$dataparse));
+	}
+
+	public function viewmateri(){
+		$id = $this->uri->segment(3);
+		$sql = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.materi,c.pathfile from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+		where b.id = '".$id."'")->row(); 
+		echo json_encode($sql, TRUE); 
+	}
+
 	public function tampil_kelas()	{
 		$error = '';
 		$location = $this->uri->segment(1);
-		$id_kelas = $this->uri->segment(3);
+		$id_dat_kelas = $this->uri->segment(3);
+
+		$ex = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.materi,pathfile from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+		where b.id = '".$id_dat_kelas."' ")->row(); 
+		$sqlkelas = $this->db->query("select a.*,count(b.`status`) as total,c.nm_kelas,b.id_dat_kelas,b.id_kelas_modul from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas c on c.id = a.id_kelas
+		WHERE a.id='".$id_dat_kelas."' GROUP BY a.id_kelas ")->row();
+		$sqlmodul = $this->db->where('kelas_id',$sqlkelas->id_kelas_modul)->get('lit_el_kelas_modul')->result();
 		// echo $id_kelas;exit;
 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 					  'error'=>$error,
+					  'kelas'=>$sqlkelas->nm_kelas,
 					  'location'=>$location,
-					  'id_kelas'=>$id_kelas,					  
+					  'listmodul'=>$sqlmodul,
+					  'ex'=>$ex,
+					  'id_kelas'=>$id_dat_kelas,					  
 					  'footer'=>'© 2019. Langit Infotama');
 		$this->load->view('kelas_karyawan_menu',$data);
 	}

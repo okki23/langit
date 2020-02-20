@@ -3,42 +3,37 @@
 <!-- Page container -->
  	<div class="page-container">
 	<?php $this->load->view('sidebar-template',$location);?>
+    <br>
+    <a href="<?php echo base_url('');?>">
 	<div class="page-content">
 			<div class="page-header">
 				<div class="page-title">
-                    <h3>Data <?php echo set_title($location);?></h3> 
+                    <h3>Data <?php echo set_title($location).' '.$title->nm_kelas;?></h3>   
+                    <br>
+                            <a href="javascript:void(0);" id="addmodal" class="btn btn-primary"> <i class="icon-plus-circle"></i>   Tambah Data </a>
+                    <br>
+                    &nbsp;
 				</div>
-			</div> 
-            <?php
-            if($this->session->userdata('username') == 'admin'){
-            ?>
-            <table class="table table-bordered table-striped table-hover js-basic-examplekelas" id="examplekelas">
-                <thead>
-                    <tr>
-                        <th style="width:5%; text-align:center;">No</th>
-                        <th style="width:5%; text-align:center;">Nama Kelas</th>
-                        <th style="width:5%; text-align:center;">Tanggal Dibuka</th> 
-                        <th style="width:10%; text-align:center;">Is Active</th>  
-                        <th style="width:20%; text-align:center;">Opsi</th>
-                    </tr>
-                </thead>
-            </table>  
-            <?php
-            }else{ 
-            ?>
-              <table class="table table-bordered table-striped table-hover js-basic-examplekelaskoe" id="examplekelaskoe">
-                <thead>
-                    <tr>
-                        <th style="width:5%; text-align:center;">No</th>
-                        <th style="width:20%; text-align:center;">Nama Kelas</th> 
-                        <th style="width:5%; text-align:center;">Opsi</th>
-                    </tr>
-                </thead>
-            </table>  
+			</div>
+		<!-- /sidebar -->
+        <a href="<?php echo base_url('materi_video'); ?>" class="btn btn-primary"> <i class="icon-undo2"></i> Back </a>
+        <br>
+        &nbsp;
+        <table width="100%" class="table table-bordered table-striped table-hover" id="example" > 
+                                     <thead>
+                                        <tr>  
+                                            <th style="width:5%;">No</th> 
+                                            <th style="width:12%;">Nama Modul </th> 
+                                            <th style="width:12%;">Status </th> 
+                                            <th style="width:20%;">Action </th>  
+                                         </tr>
+                                    </thead> 
+                                    <tbody>
+                                        
+                                    </tbody>  
+                                </table> 
 
-            <?php  
-            }
-            ?> 
+       
 	<!-- form tambah dan ubah data -->
 	<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
@@ -48,13 +43,10 @@
                         </div>
                         <div class="modal-body"> 
                             <form id="MateriVideo" enctype="multipart/form-data" method="post">
-                                <input type="hidden" name="id" id="id"> 
-                                <!-- <input type="text" name="author" id="author" value="<?php echo $this->session->userdata('username'); ?>">  -->
+                                <input type="hidden" name="id" id="id">  
                                 <div class="form-group">
                                 <div class="col-sm-12">
                                 <div class="row"> 
-                                        <br>
-                                        &nbsp;
                                     </div> 
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -152,13 +144,14 @@
                             <h4 class="modal-title">Data Materi</h4>
                         </div>
                         <div class="modal-body">
-                            <div align="center">
-                            <div class="row">
-                            <h3> Isi Materi </h3> 
-                            <div class="col-md-12">
-                                <div id="parsedatamateri"></div>       
-                            </div>                    
-                            </div>                    
+                           
+                                <div class="row">
+                                
+                                    <h3> Isi Materi </h3>  
+                                        <div class="col-md-12">
+                                            <div id="parsedatamateri"></div>       
+                                        </div>                    
+                                          
 					   </div>
                        <div class="modal-footer">
 							  <button type="button" class="btn btn-danger" data-dismiss="modal"> X Tutup </button>
@@ -167,13 +160,11 @@
                     </div>
                 </div>
     </div>
-      
+     
+ 
 </body>
 
-<script type="text/javascript">
-$(document).ready(function(){
-    $("#listingmateri").hide();
-});
+<script type="text/javascript"> 
 function elFinderBrowser(callback, value, meta) {
     tinymce.activeEditor.windowManager.open({
         file: '<?php echo base_url("file_manager/filetes"); ?>', // use an absolute path!
@@ -251,17 +242,38 @@ function get_filesize(url, callback) {
     xhr.send();
 }
  </script>
-<script type="text/javascript">	
+<script type="text/javascript">	 
+    var no_order = <?php echo $this->uri->segment(3);?> 
     $('#example').DataTable({
-             "ajax": "<?php echo base_url(); ?>materi_video/fetch_materi_video",
-             "destroy":true
-    }); 
+        "processing" : true,
+        "ajax" : {
+            "url" : "<?php echo base_url('materi_video/fetch_materi_video/'); ?>",
+            "type":"GET" ,  
+            "data":{"userId":no_order},
+        },  
+        "columns" : [{
+            "data" : "no"
+        },{
+            "data" : "nm_modul"
+        },{
+            "data" : "status"
+        },{
+            "data" : "action"
+        }],
+
+        "rowReorder": {
+            "update": false
+        },
+
+        "destroy":true,
+    });
+
+    // $('#example').DataTable({
+    //          "ajax": "<?php echo base_url(); ?>materi_video/fetch_materi_video",
+    //          "destroy":true
+    // }); 
     $('#examplekelas').DataTable({
             "ajax": "<?php echo base_url(); ?>materi_video/fetch_kelas_pembelajaran",
-             "destroy":true 
-    }); 
-    $('#examplekelaskoe').DataTable({
-            "ajax": "<?php echo base_url(); ?>materi_video/fetch_kelas_pembelajaran_employee",
              "destroy":true 
     }); 
     function PreviewFile(input) { 
@@ -318,9 +330,9 @@ function get_filesize(url, callback) {
 
     function Simpan_Data() { 
         var id = $("#id").val();
-        var kelas_id = $("#kelas_id").val();
+        var kelas_id = "<?php echo $this->uri->segment(3); ?>";
         var nm_modul = $("#nm_modul").val();
-        var status = $("#status").val(); 
+        var status = $("#status").val();  
         var pathfile = $("#pathfile").val(); 
         var materi = tinymce.get('materi').getContent(); 
          $.ajax({
@@ -348,8 +360,7 @@ function get_filesize(url, callback) {
 
     function Ubah_Data(id) {
          $("#defaultModalLabel").html("Form Ubah Data");
-         $("#defaultModal").modal('show');
-
+         $("#defaultModal").modal('show'); 
          $.ajax({
              url: "<?php echo base_url(); ?>materi_video/get_data_edit/" + id,
              type: "GET",
@@ -358,6 +369,7 @@ function get_filesize(url, callback) {
                  $("#defaultModal").modal('show');
                  $("#id").val(result.id);
                  $("#nm_modul").val(result.nm_modul); 
+                 $("#pathfile").val(result.pathfile); 
                  tinymce.get("materi").setContent(result.materi); 
                  $("#kelas_id").select2().select2('val',result.kelas_id); 
                  $("#status").select2().select2('val',result.status); 
@@ -398,23 +410,7 @@ function get_filesize(url, callback) {
                  $("#parsedata").html(result.materi); 
 			 }
 		 });
-	 } 
-
-     function PilihMateri(id){ 
-        $("#listingmateri").show(); 
-	 } 
-
-     function ClosePilihMateri(){
-        $("#listingmateri").hide();
-        $.ajax({
-			 url:"<?php echo base_url(); ?>materi_video/form_materi/"+id,
-			 type:"GET",
-			 dataType:"JSON", 
-			 success:function(result){   
-                $("#parsedatamateri").html(data); 
-			 }
-		 });
-     }
+	 }  
 </script> 
 </div>
 </div>
