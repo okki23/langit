@@ -26,11 +26,11 @@
 	<div class="page-container">
  
 		<?php
-        foreach($data_xyz->result() as $row){
-
+        foreach($data_xyz->result() as $row){ 
                   $materinya = $row->materinya;
-                  $modulnya= $row->nm_modul;
+                  $modulnya= $row->modulnya;
                   $kelasnya= $row->nm_kelas;
+                  $file = $row->pathfile;
                 
               }
 		if($this->session->userdata('ses_lit_level_user')=='1')
@@ -48,6 +48,9 @@
 			<div class="page-header">
 				<div class="page-title">
 					<h3>Kelas <?php echo $kelasnya;?>  </h3>
+                    <a href="<?php echo base_url('materi_video'); ?>" class="btn btn-primary"><i class="icon-arrow-left3"></i> Back to Home </a>
+                    <br>
+                    &nbsp;
 				</div>
 			</div>
 		<!-- /sidebar -->
@@ -58,23 +61,35 @@
             <div class="panel-body">
                 <div class="col-sm-12">
                     <br>    
+                    <a href="<?php echo base_url('file_manager_dir/'.$file); ?>" target="_blank" class="btn btn-primary"> <i class="icon-book2"></i> Download Materi </a>
                         <table class="table table-striped table-bordered table-hover" style="width:100%; ">
-                    
-                           
-                            
-                            
-                             
+                     
                              <tr>
                                
-                                <td><textarea id="summernote" name="contents" ><?php echo $materinya;?></textarea></td>
-                            </tr>
-
-                          
+                                <td style="padding:10px 20px 10px 20px;"> 
+                                <?php echo $materinya; ?>
+                                </td>
+                            </tr> 
+                                    
                         </table>
                         <br>
-                </div>
-                 <button type="submit" class="btn btn-primary">Lanjut</button>
-                </form>
+                 </div>   
+                  
+                 <div align="center">
+                 <?php
+                 if($row->status == 0){
+                 ?>
+                        <button type="submit" class="btn btn-primary">Selesai Mempelajari</button>
+                 <?php
+                 }else{
+                 ?>
+                        <button type="submit" class="btn btn-primary" disabled="disabled">Selesai Mempelajari</button>
+                 <?php 
+                 }
+                 ?>
+                 
+                 </div>
+                 </form>
                 <script type="text/javascript" src="<?php echo base_url().'assets/summernote/summernote-bs4.js';?>"></script>
     <script type="text/javascript">
         $(document).ready(function(){

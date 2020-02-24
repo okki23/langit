@@ -35,7 +35,7 @@
 						
 						foreach ($sqlmenu as $r_menu_thumbnail) {
 						?>
-						<li <?php if($location == $r_menu_thumbnail['menu_name']) { echo 'class="active"'; }  ?>><a href="<?php echo base_url(''.$r_menu_thumbnail['menu_url'].'');?>"><?php echo $r_menu_thumbnail['menu_name']." ".$r_menu_thumbnail['sts_read'];?></a></li>
+						<li <?php if($location == $r_menu_thumbnail['menu_name']) { echo 'class="active"'; }  ?>><a href="<?php echo base_url(''.$r_menu_thumbnail['menu_url'].'');?>"><?php echo $r_menu_thumbnail['menu_name']." ".$r_menu_thumbnail['sts_read'];?> </a></li>
 						<?php
 						}
 						?>

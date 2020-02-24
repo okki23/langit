@@ -156,7 +156,7 @@
                             <div class="row">
                             <h3> Isi Materi </h3> 
                             <div class="col-md-12">
-                                <div id="parsedatamateri"></div>       
+                                <div style="padding:10px 10px 10px 10px;" id="parsedatamateri"></div>       
                             </div>                    
                             </div>                    
 					   </div>

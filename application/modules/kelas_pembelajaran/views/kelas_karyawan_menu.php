@@ -24,43 +24,11 @@
 				</div>
 
 			</div> 
-			 <p>Berikut ini adalah daftar modul yang akan anda pelajari didalam kelas <b><?php echo $kelas; ?></b> </p>
+			 <p>Silahkan gunakan menu di sebelah kiri untuk mengakses modul materi di kelas <b><?php echo $kelas; ?></b> </p>
+			 
 			 <br> 
 
-			 <table class="table table-bordered table-striped table-hover js-basic-example" id="example">
-            <thead>
-                <tr>
-                    <th style="width:1%; text-align:center;">No</th>
-                    <th style="width:10%; text-align:center;">Nama Modul</th> 
-                    <th style="width:3%; text-align:center;">Opsi</th>
-                </tr>
-            </thead>
-		</table>   
-		<!-- detail materi -->
-		<div class="modal fade" id="DetailModal" tabindex="-1" role="dialog">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">Detail Materi</h4>
-							</div>
-							<div class="modal-body">
-								<div align="center">
-									<div class="row">
-									<h3> Isi Materi </h3> 
-									<div class="col-md-12">
-										<div id="parsedata"></div>   
-									</div>                    
-								</div>                    
-						</div>
-						<div class="modal-footer">
-						<input type="hidden" name="iddatmodul" id="iddatmodul" class="iddatmodul">
-										<button type="button" id="finishbelajar" class="btn btn-primary btn-lg" onclick="FinishBelajar();" > Selesai </button> 
-								<button type="button" class="btn btn-danger" data-dismiss="modal"> X Tutup </button>
-							</div>
-						
-						</div>
-					</div>
-		</div>
+			  
 	
  </div>
  

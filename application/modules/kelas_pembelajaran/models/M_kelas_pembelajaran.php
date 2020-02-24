@@ -54,16 +54,7 @@ class M_kelas_pembelajaran extends Parent_Model {
 				$sub_array[] = $no;
 				$sub_array[] = $row->nm_gugus; 
 				$sub_array[] = $row->nm_sub_gugus; 
-				$sub_array[] = $row->nm_kelas; 
-				$sub_array[] = '<div align="center">
-									Complete '.$this->getread($row->id)->baca.' of '.$row->total.'
-								</div>
-								<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="'.ceil((($this->getread($row->id)->baca / $row->total)*100)).'"
-								aria-valuemin="0" aria-valuemax="100" style="width:'.ceil((($this->getread($row->id)->baca / $row->total)*100)).'%">
-								'.ceil((($this->getread($row->id)->baca / $row->total)*100)).'%
-								</div>
-							</div> ';
+				$sub_array[] = $row->nm_kelas;  
 				$sub_array[] = '<div style="text-align:center;">
 										<a href="javascript:void(0);" onclick="ViewMateri('.$row->id.');" class="btn btn-warning" id="edit"> View Materi </a>  &nbsp;
 									</div>'; 

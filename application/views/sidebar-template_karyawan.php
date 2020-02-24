@@ -204,10 +204,11 @@
 							<li <?php if($location == 'setuju_pembelajaran') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('setuju_pembelajaran');?>">Persetujuan Atasan</a></li>
 							<li <?php if($location == 'kelas_pembelajaran') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('kelas_pembelajaran');?>">Kelas Pembelajaran</a></li>
 							<li <?php if($location == 'materi') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('materi');?>">Materi Pembelajaran Non Video/Audio</a></li>
-							<li <?php if($location == 'dashboard_diklat') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('dashboard_diklat');?>">Materi Pembelajaran Video/Audio</a></li>
+							<li <?php if($location == 'materi_video') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('materi_video');?>">Materi Pembelajaran Video/Audio</a></li>
 							<li <?php if($location == 'dashboard_diklat') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('dashboard_quiz');?>">Quiz Materi Pembelajaran</a></li>
 							<li <?php if($location == 'monitoring_belajar') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('monitoring_belajar');?>">Monitoring Pembelajaran</a></li>
 							<li <?php if($location == 'progres_belajar') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('progres_belajar');?>">Progress Pembelajaran</a></li>
+							<li <?php if($location == 'work_assignment') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('work_assignment');?>">Work Assignment</a></li>
 							<li <?php if($location == 'evaluasi_belajar') { echo 'class="active"'; }  ?>><a href="<?php echo base_url('evaluasi_belajar');?>">Evaluasi Pembelajaran</a></li>
 							
 					</ul>

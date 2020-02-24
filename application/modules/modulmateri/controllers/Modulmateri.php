@@ -87,16 +87,8 @@ class Modulmateri extends CI_Controller {
 		$id = $this->input->post('id');
         
 		$sqlupdate = $this->model_modulmateri->pro_update_modul($id);
-		$this->tampil_next($id+1);
-		// $link = base_url('modulmateri'.'/'.);
-
-		// //
-		// echo "<script language=javascript>
-		// 		alert('Perbaikan Berhasil');
-		// 		window.location='$link';
-		//       </script>";
-
-	
+		redirect(base_url('modulmateri/tampil/'.$id));
+		//$this->tampil_next($id+1); 
  	}
 	 
 }

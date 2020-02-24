@@ -31,7 +31,7 @@
         <table class="table table-bordered table-striped table-hover js-basic-example" id="example">
             <thead>
                 <tr>
-                    <th style="width:5%; text-align:center;">No</th>
+                    <th style="width:2%; text-align:center;">No</th>
                     <th style="width:5%; text-align:center;">Nama Gugus</th>
                     <th style="width:5%; text-align:center;">Nama Sub Gugus</th>
                     <th style="width:5%; text-align:center;">Nama Kelas</th>
@@ -47,11 +47,10 @@
         <table class="table table-bordered table-striped table-hover js-basic-example" id="example">
             <thead>
                 <tr>
-                    <th style="width:5%; text-align:center;">No</th>
+                    <th style="width:2%; text-align:center;">No</th>
                     <th style="width:5%; text-align:center;">Nama Gugus</th>
                     <th style="width:5%; text-align:center;">Nama Sub Gugus</th>
-                    <th style="width:5%; text-align:center;">Nama Kelas</th>
-                    <th style="width:20%; text-align:center;">Progress</th>  
+                    <th style="width:5%; text-align:center;">Nama Kelas</th> 
                     <th style="width:5%; text-align:center;">Opsi</th>
                 </tr>
             </thead>

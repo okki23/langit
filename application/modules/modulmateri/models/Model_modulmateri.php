@@ -194,15 +194,11 @@ public function update_cuti(){
 		return $queryx;
 	}
 
-	public function get_data_modul($id){
-
-	$query = $this->db->query("SELECT a.*,c.nm_kelas, d.nm_modul as modulnya,d.materi as materinya FROM lit_el_dat_kelas_modul a INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id INNER JOIN lit_el_kelas c on b.id_kelas=c.id INNER JOIN lit_el_kelas_modul d on a.id_kelas_modul=d.id where a.id='$id'");
- 	return $query;
-
-	}
-
-
-			
+	public function get_data_modul($id){ 
+	$query = $this->db->query("SELECT a.*,c.nm_kelas, d.pathfile, d.nm_modul as modulnya,d.materi as materinya FROM lit_el_dat_kelas_modul a INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id INNER JOIN lit_el_kelas c on b.id_kelas=c.id INNER JOIN lit_el_kelas_modul d on a.id_kelas_modul=d.id where a.id='$id'");
+ 	return $query;  
+	} 
+	
 	public function pro_update_modul($id){
 	date_default_timezone_set('Asia/Jakarta');			
 	$query = $this->db->query("update lit_el_dat_kelas_modul set 

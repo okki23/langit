@@ -1,16 +1,35 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Progres_belajar extends Parent_Controller { 
+class progres_belajar extends Parent_Controller { 
 
-	var $nama_tabel = 'lit_el_dat_kelas'; 
-	var $daftar_field = array('id','id_kelas','personnel_id','isapproveatasan','ket_atasan','tanggal_daftar','created_at','updated_at');
+	var $nama_tabel = 'lit_el_kelas'; 
+	var $daftar_field = array('id','id_gugus','id_sub_gugus','nm_kelas','tgl_dibuka','isactive','created_at','updated_at');
 	var $primary_key = 'id';
 
 	public function __construct(){
 		parent ::__construct(); 
 		$this->load->model('m_progres_belajar');
-	} 
+	}   
+
+	public function get_materi(){ 
+		$id_kelas = $this->input->get('id_kelas');  
+		$getdata = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.pathfile from lit_el_dat_kelas a
+	left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+	left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+	 where a.id = '".$id_kelas."'")->result();
+		$data = array();
+	   
+		$no = 1;
+		$dataparse = array();  
+		foreach ($getdata as $key => $value) {   
+				$sub_array['no'] = $no;
+				$sub_array['nm_modul'] = $value->nm_modul;   
+			array_push($dataparse,$sub_array); 
+			$no++; 
+		}
+	 echo json_encode(array("data"=>$dataparse));
+	}
 
 	public function index()	{ 
 		$valid = $this->lit_app_lib->CheckAuthoritation(0);		
@@ -39,6 +58,8 @@ class Progres_belajar extends Parent_Controller {
 		$data_employee = $this->m_progres_belajar->get_all_progres_belajar();
 		$select_karyawan = $this->db->get("human_pa_md_emp_personal")->result();
 		$select_kelas = $this->db->get("lit_el_kelas")->result();
+		$select_gugus = $this->db->get("lit_el_tab_gugus")->result();
+		$select_subgugus = $this->db->get("lit_el_tab_gugus_sub")->result();
 		//get user active when session is not admin 
 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 					  'error'=>$error,
@@ -51,41 +72,94 @@ class Progres_belajar extends Parent_Controller {
 					  'flagDel'=>$flagDel,
 					  'select_karyawan'=>$select_karyawan,
 					  'select_kelas'=>$select_kelas,
+					  'select_gugus'=>$select_gugus,
+					  'select_subgugus'=>$select_subgugus,
 					  'footer'=>'© 2016. Langit Infotama');		
 	 		
 		$this->load->view('progres_belajar/progres_belajar_view',$data); 
 		 
 	} 
 
+	public function finish_belajar(){
+		$datkelas = $this->input->post('datkelas');
+		$this->db->query("update lit_el_dat_kelas_modul set status = 1 where id = '".$datkelas."' ");
+	}
+
+	public function listing_modul_kelas(){ 
+		$id_dat = $this->input->get('id_dat');  
+		$getdata = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.pathfile from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+		  where a.id = '".$id_dat."' ")->result();
+		$data = array();
+	   
+		$no = 1;
+		$dataparse = array();  
+		foreach ($getdata as $key => $value) {   
+				$sub_array['no'] = $no;
+				$sub_array['nm_modul'] = $value->nm_modul;  
+				$sub_array['status'] = $value->status; 
+				if($value->status != 1){
+					$sub_array['action'] = $sub_array[] = '<div style="text-align:center;">
+														   <a href="'.base_url('file_manager_dir/'.$value->pathfile).'" target="_blank" id="modul" class="btn btn-danger"  >  Download Modul </a>
+														   <a href="javascript:void(0)" id="btnbelajar" class="btn btn-danger" onclick="Pelajari(' . $value->iddatmodul . ');" >  Pelajari </a>
+													</div>';
+				}else{
+					$sub_array['action'] = $sub_array[] = '<div style="text-align:center;">
+														   <a href="'.base_url('file_manager_dir/'.$value->pathfile).'" target="_blank" id="modul" class="btn btn-danger"  >  Download Modul </a>
+														   <a href="javascript:void(0)" id="btnbelajar" class="btn btn-success" onclick="Pelajari(' . $value->iddatmodul . ');" >  Sudah Dipelajari </a>
+													</div>';
+				} 
+			array_push($dataparse,$sub_array); 
+			$no++; 
+		}
+	 echo json_encode(array("data"=>$dataparse));
+	}
+
+	public function viewmateri(){
+		$id = $this->uri->segment(3);
+		$sql = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.materi,c.pathfile from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+		where b.id = '".$id."'")->row(); 
+		echo json_encode($sql, TRUE); 
+	}
+
+	public function tampil_kelas()	{
+		$error = '';
+		$location = $this->uri->segment(1);
+		$id_dat_kelas = $this->uri->segment(3);
+
+		$ex = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.materi,pathfile from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
+		where b.id = '".$id_dat_kelas."' ")->row(); 
+		$sqlkelas = $this->db->query("select a.*,count(b.`status`) as total,c.nm_kelas,b.id_dat_kelas,b.id_kelas_modul from lit_el_dat_kelas a
+		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
+		left join lit_el_kelas c on c.id = a.id_kelas
+		WHERE a.id='".$id_dat_kelas."' GROUP BY a.id_kelas ")->row();
+		$sqlmodul = $this->db->where('kelas_id',$sqlkelas->id_kelas_modul)->get('lit_el_kelas_modul')->result();
+		// echo $id_kelas;exit;
+		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
+					  'error'=>$error,
+					  'kelas'=>$sqlkelas->nm_kelas,
+					  'location'=>$location,
+					  'listmodul'=>$sqlmodul,
+					  'ex'=>$ex,
+					  'id_kelas'=>$id_dat_kelas,					  
+					  'footer'=>'© 2019. Langit Infotama');
+		$this->load->view('kelas_karyawan_menu',$data);
+	}
+
 	public function fetch_progres_belajar(){
 		$getdata = $this->m_progres_belajar->fetch_progres_belajar();
 		echo json_encode($getdata);
 	}
 
-	public function iyes(){
-		$d1 = $this->db->query("select a.*,b.nm_kelas,c.`status`,count(c.`status`) as allmodules
-	    from lit_el_dat_kelas a
-		left join lit_el_kelas b on b.id = a.id_kelas
-		left join lit_el_dat_kelas_modul c on c.kelas_id = b.id  
-		where a.personnel_id = '10011279' GROUP BY a.id_kelas
-		")->result();
-		foreach($d1 as $k=>$v){
-			$d2 = $this->db->query("select count(z.status) as totalread from lit_el_dat_kelas_modul z
-			left join lit_el_dat_kelas x on x.id_kelas = z.kelas_id
-			where z.status = 1 and x.personnel_id = 10011279 and x.id_kelas = '".$v->id_kelas."' ")->result();
-			foreach($d2 as $kk=>$vv){
-				echo $v->nm_kelas. " - ".$vv->totalread. " - ".$v->allmodules. " progress = ".ceil((@($vv->totalread / $v->allmodules)*100))."<br>";
-			}
-			
-		}
-	}
 	public function get_data_edit()
 	{
 		$id = $this->uri->segment(3);
-		$sql = $this->db->query('select a.*,b.name_full,b.lit_nik,c.name_position,d.nm_kelas,case a.isapproveatasan when 2 then "No" else "Yes" end as status from lit_el_dat_kelas a
-		left join human_pa_md_emp_personal b on b.personnel_id = a.personnel_id
-		left join lit_tab_posisi c on c.personnel_id = b.personnel_id
-		left join lit_el_kelas d on d.id = a.id_kelas where a.id = "'.$id.'" ')->row();
+		$sql = $this->db->where('id',$id)->get($this->nama_tabel)->row();
 		echo json_encode($sql, TRUE); 
 	} 
 
@@ -104,26 +178,15 @@ class Progres_belajar extends Parent_Controller {
 	public function simpan_data()
 	{ 
 		$data_form = $this->m_progres_belajar->array_from_post($this->daftar_field); 
-		$id = isset($data_form['id']) ? $data_form['id'] : NULL;   
-		$data_form['isapproveatasan'] = 0;
-		$data_form['ket_atasan'] = "-"; 
-		
-		//cek apabila data sudah tersedia atau belum
-		$filter = array('id_kelas'=>$data_form['id_kelas'],'personnel_id'=>$data_form['personnel_id']);
-		$cek = $this->db->where($filter)->get($this->nama_tabel)->num_rows(); 	
-
-		if($cek > 0){
-			$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'duplicate!'));
-		}else{
+		$id = isset($data_form['id']) ? $data_form['id'] : NULL;    
+		 
 			$simpan_data = $this->m_progres_belajar->simpan_data_dat($data_form, $this->nama_tabel, $this->primary_key, $id);
 		 
 			if ($simpan_data) {
 				$result = array("response" => array('code'=>200,'status'=>'OK','message' => 'success'));
 			} else {
 				$result = array("response" => array('code'=>200,'status'=>'NOK','message' => 'failed')); 
-			}
-
-		} 
+			} 
 		echo json_encode($result, TRUE);
 	} 
 }
