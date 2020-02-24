@@ -56,7 +56,7 @@ class M_kelas_pembelajaran extends Parent_Model {
 				$sub_array[] = $row->nm_sub_gugus; 
 				$sub_array[] = $row->nm_kelas;  
 				$sub_array[] = '<div style="text-align:center;">
-										<a href="javascript:void(0);" onclick="ViewMateri('.$row->id.');" class="btn btn-warning" id="edit"> View Materi </a>  &nbsp;
+										<a href="javascript:void(0);" onclick="ViewMateri('.$row->id.');" class="btn btn-warning" id="edit"> Lihat Modul </a>  &nbsp;
 									</div>'; 
 				$data[] = $sub_array;
 				$no++;
