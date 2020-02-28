@@ -6,8 +6,29 @@
 	<div class="page-content">
 			<div class="page-header">
 				<div class="page-title">
-                    <h3>Data <?php echo set_title($location);?></h3>
-                    
+                    <h3>Data <?php echo set_title($location);?></h3> 
+                    <!-- Button trigger modal -->
+                     
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                            <br>
+                            <input type="text" name="id" id="id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
 			</div>
 		<!-- /sidebar -->
         <table class="table table-bordered table-striped table-hover js-basic-example" style="text-align:center;" id="example">
@@ -63,15 +84,37 @@
                     </div>
                 </div>
     </div>
+
+    
+    
+	<!-- upload realisasi -->
+	<div class="modal fade" id="UploadRealisasix" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload Realisasi</h4>
+                        </div>
+                        <div class="modal-body"> 
+                               
+					   </div> 
+                       <div class="modal-footer">
+							  <button type="button" class="btn btn-danger" data-dismiss="modal"> X Tutup </button>
+						</div>
+                     
+                    </div>
+                </div>
+    </div>
      
  
 </body>
 <script type="text/javascript">	 
+
+  
      $(document).ready(function(){
         $('#filemateri').change(function(e){
             var fileName = e.target.files[0].name;
             $("#pathfile").val(e.target.files[0].name); 
-        });
+        }); 
     });
      
     $('#example').DataTable({
@@ -156,6 +199,11 @@
     function UploadAssign(id) { 
          $("#UploadAssign").modal('show');  
          $("#id").val(id);
+     }
+
+    
+    function UploadRealisasix(id) { 
+        $("#UploadRealisasix").modal({backdrop: 'static', keyboard: false,show:true});
      }
 
     function Ubah_Data(id) {

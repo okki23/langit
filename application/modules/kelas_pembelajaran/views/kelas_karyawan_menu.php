@@ -28,6 +28,42 @@
 			 
 			 <br> 
 
+			<?php  
+			$offsets = Array();
+			$personnel_id = $this->session->userdata('ses_personnel_id');
+			foreach ($listingdata as $key=>$country_offset) {
+				$offset = $country_offset['id'];
+				array_push($offsets, $offset);
+			}
+			 
+			 
+			asort($offsets);
+			foreach($offsets as $offset) {
+				//echo $offset . "<br />";
+				$query = $this->db->query("select a.*,b.nm_modul as modulnya,b.materi from lit_el_dat_kelas_modul a 
+				left join lit_el_kelas_modul b on b.id = a.id_kelas_modul
+				where a.id = '".$offset."' ")->row();
+				echo $query->id.' - '.$query->modulnya." - ".$query->status."<br>";
+			}
+
+			echo 'soal pertama id :'.reset($offsets)."<br>";
+			echo 'soal terakhir id :'.max($offsets)."<br>";
+			echo '<hr>';
+			echo '<ul>';
+						 
+						$sqlmenu  =   $this->db->query("SELECT a.*,concat('modulmateri','/tampil/',a.id,'/',a.id_dat_kelas) as menu_url, c.nm_modul as menu_name, case when a.status=1 then '√' else ' ' end as sts_read FROM lit_el_dat_kelas_modul a 
+						INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id 
+						INNER JOIN lit_el_kelas_modul c on a.id_kelas_modul=c.id 
+						where a.id_dat_kelas = '$id_kelas' and b.personnel_id='$personnel_id'")->result_array(); 
+						foreach ($sqlmenu as $r_menu_thumbnail) { 
+						echo '<li';
+							if($location == $r_menu_thumbnail['menu_name']) { 
+								echo 'class="active"'; 
+							} 
+							echo '><a href="'.base_url(''.$r_menu_thumbnail['menu_url'].'').'"> '.$r_menu_thumbnail['menu_name']." ".$r_menu_thumbnail['sts_read'].'</a></li>';
+						}
+			echo '</ul>';
+			?>
 			  
 	
  </div>

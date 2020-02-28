@@ -156,13 +156,15 @@ class Kelas_pembelajaran extends Parent_Controller {
 		left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
 		left join lit_el_kelas c on c.id = a.id_kelas
 		WHERE a.id='".$id_dat_kelas."' GROUP BY a.id_kelas ")->row();
-		$sqlmodul = $this->db->where('kelas_id',$sqlkelas->id_kelas_modul)->get('lit_el_kelas_modul')->result();
-		// echo $id_kelas;exit;
+		$sqlmodul = $this->db->where('kelas_id',$sqlkelas->id_kelas_modul)->get('lit_el_kelas_modul')->result(); 
+		
+		$listingdata = $this->db->query("select * from lit_el_dat_kelas_modul where id_dat_kelas = '".$this->uri->segment(3)."' ")->result_array();
 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 					  'error'=>$error,
 					  'kelas'=>$sqlkelas->nm_kelas,
 					  'location'=>$location,
 					  'listmodul'=>$sqlmodul,
+					  'listingdata'=>$listingdata,
 					  'ex'=>$ex,
 					  'id_kelas'=>$id_dat_kelas,					  
 					  'footer'=>'© 2019. Langit Infotama');

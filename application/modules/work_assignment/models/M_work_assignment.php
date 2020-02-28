@@ -66,9 +66,13 @@ class M_work_assignment extends Parent_Model {
 			if(empty($row->file_assignment)){
 				$sub_array[] = '<a class="btn btn-primary" disabled="disabled"> Tidak Ada File Assignment </a>';
 			}else if(empty($row->file_realisasi)){
-				$sub_array[] = '<a href="javascript:void(0)" class="btn btn-warning"  onclick="UploadRealisasi(' . $row->id . ');" > Upload File Realisasi </a>  &nbsp;';
+				$sub_array[] = '<button type="button"  id="oncom" data-datac="' . $row->id . '" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				Upload File Realisasi 
+				</button> &nbsp;';
 			}else{
-				$sub_array[] = '<a href="javascript:void(0)" class="btn btn-warning" onclick="UploadRealisasi(' . $row->id . ');" >  Upload File Realisasi </a>   &nbsp; <a class="btn btn-primary" target="_blank" href="file_manager_dir/'.$row->file_realisasi.'"> Download File Realisasi </a>';
+				$sub_array[] = '<button type="button"  id="oncom" data-datac="' . $row->id . '" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				Upload File Realisasi 
+				</button>  &nbsp; <a class="btn btn-primary" target="_blank" href="file_manager_dir/'.$row->file_realisasi.'"> Download File Realisasi </a>';
 			}
 			
 		  } 

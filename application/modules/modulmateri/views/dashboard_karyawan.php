@@ -76,30 +76,60 @@
                  </div>   
                   
                  <div align="center">
-                 <?php
-                 if($row->status == 0){
-                 ?>
-                        <button type="submit" class="btn btn-primary">Selesai Mempelajari</button>
-                 <?php
-                 }else{
-                 ?>
-                        <button type="submit" class="btn btn-primary" disabled="disabled">Selesai Mempelajari</button>
-                 <?php 
-                 }
-                 ?>
-                 
-                 </div>
-                 </form>
-                <script type="text/javascript" src="<?php echo base_url().'assets/summernote/summernote-bs4.js';?>"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#summernote').summernote({toolbar:"false",disableResizeEditor: true});
-             $('#summernote').summernote('disable');
-                     
+                    <input type="hidden" name="datkelas" value="<?php echo $this->uri->segment(4); ?>">
+                    <input type="hidden" name="idnow" value="<?php echo $idnow; ?>">
+                    <input type="hidden" name="idprev"  value="<?php echo $idprev; ?>">
+                    <input type="hidden" name="idnext"  value="<?php echo $idnext; ?>">
+                    <input type="hidden" name="statnow" value="<?php echo $id; ?>">
+                    <input type="hidden" name="idstart" value="<?php echo $idstart; ?>">
+                    <input type="hidden" name="idlast" value="<?php echo $idlast; ?>">
+                        <?php
+                        if($idnow == $idstart){
+                        ?>
+                            <button type="button" disabled="disabled" class="btn btn-primary"> <i class="icon-arrow-left"></i> Kembali </button>
+                        <?php
+                        }else{
+                        ?>
+                             <button type="button" onclick="Back(<?php echo $idprev; ?>,<?php echo $this->uri->segment(4); ?>);" class="btn btn-primary"> <i class="icon-arrow-left"></i> Kembali </button>
+                        <?php
+                        }
+                        ?> 
 
-           
-        });
+                        
+                        <?php
+                        if($idlast == $idnow){
+                        ?>
+                            <!-- <button type="submit" disabled="disabled" class="btn btn-primary"> Selanjutnya  <i class="icon-arrow-right"></i>  </button> -->
+                            <button type="button" class="btn btn-primary" onclick="Finish(<?php echo $id; ?>,<?php echo $this->uri->segment(4); ?>);"> <i class="icon-minus-circle2"></i> Finish  </button>
+                        <?php
+                        }else{
+                        ?>
+                             
+                             
+                             <button type="submit" class="btn btn-primary"> Selanjutnya <i class="icon-arrow-right"></i>  </button>
+                        <?php
+                        }
+                        ?> 
+                 </div>
+                 </form> 
+    <script type="text/javascript">
         
+        function Back(id,datkelas){
+            window.location='<?php echo base_url('modulmateri/tampil/');?>/'+id+'/'+datkelas;
+        }
+        
+        function Finish(id){
+            $.ajax({
+                url:"<?php echo base_url('modulmateri/finish'); ?>",
+                type:"POST",
+                data:{id:id},
+                success:function(res){
+                    alert("Selamat, Anda telah selesai mengikuti pelajaran!");   
+                    window.location='<?php echo base_url('materi_video');?>';
+                }
+            });
+            
+        }
     </script>
 </body>
  

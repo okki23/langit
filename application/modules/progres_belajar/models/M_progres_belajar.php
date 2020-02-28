@@ -59,9 +59,9 @@ class M_progres_belajar extends Parent_Model {
 									Complete '.$this->getread($row->id)->baca.' of '.$row->total.'
 								</div>
 								<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="'.ceil((($this->getread($row->id)->baca / $row->total)*100)).'"
-								aria-valuemin="0" aria-valuemax="100" style="width:'.ceil((($this->getread($row->id)->baca / $row->total)*100)).'%">
-								'.ceil((($this->getread($row->id)->baca / $row->total)*100)).'%
+								<div class="progress-bar" role="progressbar" aria-valuenow="'.@ceil((($this->getread($row->id)->baca / $row->total)*100)).'"
+								aria-valuemin="0" aria-valuemax="100" style="width:'.@ceil((($this->getread($row->id)->baca / $row->total)*100)).'%">
+								'.@ceil((($this->getread($row->id)->baca / $row->total)*100)).'%
 								</div>
 							</div> ';
 				$sub_array[] = '<div style="text-align:center;">

@@ -40,13 +40,15 @@ class Daftar_pembelajaran extends Parent_Controller {
         $location = $this->uri->segment(1);
 		$data_employee = $this->m_daftar_pembelajaran->get_all_daftar_pembelajaran();
 		$select_karyawan = $this->db->get("human_pa_md_emp_personal")->result();
+		$useractive = $this->m_daftar_pembelajaran->get_useractive($this->session->userdata('ses_personnel_id'))->name_full;
 		$select_kelas = $this->db->get("lit_el_kelas")->result();
 		//get user active when session is not admin 
 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 					  'error'=>$error,
 					  'usernamelist'=>$this->session->userdata('username'),
 					  'personnelidlist'=>$this->session->userdata('ses_personnel_id'),
-                      'location'=>$location,
+					  'location'=>$location,
+					  'useractive'=>$useractive,
 					  'data_employee'=>$data_employee,
 					  'flagAdd'=>$flagAdd,
 					  'flagEdit'=>$flagEdit,
@@ -58,6 +60,14 @@ class Daftar_pembelajaran extends Parent_Controller {
 		$this->load->view('daftar_pembelajaran/daftar_pembelajaran_view',$data); 
 		 
 	} 
+
+	public function getidatasan($personnel_id)
+	{	
+			$posisi_bawahan = $this->session->userdata('ses_code_position');
+			
+            $query = $this->db->query("SELECT a.*,b.personnel_id,b.name_position,c.name_full FROM `vw_atasan` a INNER JOIN lit_tab_posisi b on a.atasan=b.lit_code_position left join human_pa_md_emp_personal c on b.personnel_id = c.personnel_id where bawahan = '$posisi_bawahan'")->row_array(); 
+            return $query['personnel_id'];
+	}
 
 	public function fetch_daftar_pembelajaran(){
 		$getdata = $this->m_daftar_pembelajaran->fetch_daftar_pembelajaran();

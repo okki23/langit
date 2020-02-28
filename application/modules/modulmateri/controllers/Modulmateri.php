@@ -57,10 +57,35 @@ class Modulmateri extends CI_Controller {
 		$error = '';
 		$location = $this->uri->segment(1);
 		$id = $this->uri->segment(3);
+		$datkelas = $this->uri->segment(4);
+		$getstat = $this->db->query("select * from lit_el_dat_kelas_modul where id = '".$id."' and id_dat_kelas = '".$datkelas."' ")->row();
+		
+		$offsets = array();
+		$listingdata = $this->db->query("select * from lit_el_dat_kelas_modul where id_dat_kelas = '".$datkelas."' ")->result_array();
+		foreach ($listingdata as $key=>$country_offset) {
+			$offset = $country_offset['id'];
+			array_push($offsets, $offset);
+		}
+
+		asort($offsets);
+		$init = reset($offsets);
+		$max = max($offsets);
+		foreach($offsets as $offset) {
+				//echo $offset . "<br />";
+				$query = $this->db->query("select a.*,b.nm_modul as modulnya,b.materi from lit_el_dat_kelas_modul a 
+				left join lit_el_kelas_modul b on b.id = a.id_kelas_modul
+				where a.id = '".$offset."' ")->row();
+				//echo $query->id.' - '.$query->modulnya." - ".$query->status."<br>";
+		}
 		$data_xyz = $this->model_modulmateri->get_data_modul($id);
 	 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
-					  'error'=>$error,
-	                  'id'=>$id,
+					  	'error'=>$error,
+					  	'id'=>$id,
+			    	  	'idnow'=>$id,
+						'idstart'=>$init,
+						'idlast'=>$max,
+					   'idprev'=>$getstat->id-1,
+					  'idnext'=>$getstat->id+1,
 	                  'location'=>$location,
 					  'data_xyz'=>$data_xyz,
 					  'footer'=>'© 2020. Langit Infotama');	
@@ -68,10 +93,9 @@ class Modulmateri extends CI_Controller {
 		//echo $id;exit;
 	}
  
- 	public function tampil_next($id)	{
+ 	public function tampil_next($id,$datkelas)	{
 		$error = '';
-		$location = $this->uri->segment(1);
-		// $id = $this->uri->segment(3);
+		$location = $this->uri->segment(1); 
 		$data_xyz = $this->model_modulmateri->get_data_modul($id);
 	 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 					  'error'=>$error,
@@ -85,11 +109,21 @@ class Modulmateri extends CI_Controller {
  	public function save()	{
  		
 		$id = $this->input->post('id');
-        
+		$datkelas = $this->input->post('datkelas');        
 		$sqlupdate = $this->model_modulmateri->pro_update_modul($id);
-		redirect(base_url('modulmateri/tampil/'.$id));
+		$next = $id+1;
+		redirect(base_url('modulmateri/tampil/'.$next.'/'.$datkelas));
 		//$this->tampil_next($id+1); 
- 	}
+	}
+	public function finish()	{
+ 		
+		$id = $this->input->post('id');
+		$datkelas = $this->input->post('datkelas');        
+		$sqlupdate = $this->model_modulmateri->pro_update_modul($id);
+		 
+	}
+	 
+	
 	 
 }
 	

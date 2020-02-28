@@ -11,6 +11,7 @@
                             <a href="javascript:void(0);" id="addmodal" class="btn btn-primary">   Tambah Data </a>
                     <br>
                     &nbsp;
+                    
 				</div>
 			</div>
 		<!-- /sidebar -->
@@ -69,7 +70,7 @@
                                         <div class="col-sm-12">
                                             <label>Nama Karyawan:</label>
                                             <select id="personnel_id" name="personnel_id" class="form-control select2-single"> 
-                                            <option value="<?php echo $this->session->userdata('ses_personnel_id'); ?>"> <?php echo $this->session->userdata('username'); ?> </option>
+                                            <option value="<?php echo $this->session->userdata('ses_personnel_id'); ?>"> <?php echo $useractive; ?> </option>
                                             </select>
                                            
                                         </div>

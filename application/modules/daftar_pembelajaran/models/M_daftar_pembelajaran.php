@@ -11,6 +11,9 @@ class M_daftar_pembelajaran extends Parent_Model {
 		parent ::__construct(); 
 	} 
 
+	public function get_useractive($id){
+		return $this->db->where('personnel_id',$id)->get('human_pa_md_emp_personal')->row();
+	}
 	public function fetch_daftar_pembelajaran()
 	{ 
 	   if($this->session->userdata('username') == 'admin'){
