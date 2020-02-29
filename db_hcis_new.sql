@@ -11,7 +11,7 @@
  Target Server Version : 100138
  File Encoding         : 65001
 
- Date: 24/02/2020 08:21:46
+ Date: 29/02/2020 13:47:15
 */
 
 SET NAMES utf8mb4;
@@ -108,8 +108,8 @@ CREATE TABLE `core_identity_user`  (
 -- ----------------------------
 -- Records of core_identity_user
 -- ----------------------------
-INSERT INTO `core_identity_user` VALUES ('1000D', 'irul', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-02-24 06:54:18', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 1, '01020501', '11111111111111111111111111111111111111212111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '10011279');
-INSERT INTO `core_identity_user` VALUES ('1000D', 'admin', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-02-24 06:53:35', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 3, '01020501', '11111111111111111111111111111111111110101111', 'ac791bb67ab2bebdb24e4fff4d411fc4', '879f3a259c483ccbd5863a71f5909479', '20130709', '99991231', '', '', '', '', '', '0', '0', '10010240');
+INSERT INTO `core_identity_user` VALUES ('1000D', 'irul', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-02-29 13:02:29', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Irul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 1, '01020501', '11111111111111111111111111111111111111212111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '10011279');
+INSERT INTO `core_identity_user` VALUES ('1000D', 'admin', '1', NULL, '1', '0', NULL, '0', NULL, NULL, NULL, NULL, '2020-02-29 08:30:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uvKNMPwxLli1js8L+C/M8g==', 3, '01020501', '11111111111111111111111111111111111110101111', 'ac791bb67ab2bebdb24e4fff4d411fc4', '879f3a259c483ccbd5863a71f5909479', '20130709', '99991231', '', '', '', '', '', '0', '0', '10010240');
 
 -- ----------------------------
 -- Table structure for human_pa_md_emp_personal
@@ -187,7 +187,7 @@ CREATE TABLE `lit_el_dat_kelas`  (
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of lit_el_dat_kelas
@@ -210,7 +210,7 @@ CREATE TABLE `lit_el_dat_kelas_modul`  (
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of lit_el_dat_kelas_modul
@@ -252,17 +252,23 @@ INSERT INTO `lit_el_dat_kelas_modul` VALUES (44, 6, 5, '', '', '0', '0000-00-00'
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (45, 6, 6, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (46, 6, 19, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (50, 3, 1, '', '', '1', '0000-00-00', NULL, NULL);
-INSERT INTO `lit_el_dat_kelas_modul` VALUES (51, 3, 2, '', '', '1', '0000-00-00', NULL, NULL);
-INSERT INTO `lit_el_dat_kelas_modul` VALUES (52, 3, 3, '', '', '1', '0000-00-00', NULL, NULL);
-INSERT INTO `lit_el_dat_kelas_modul` VALUES (53, 3, 4, '', '', '1', '0000-00-00', NULL, NULL);
-INSERT INTO `lit_el_dat_kelas_modul` VALUES (54, 3, 5, '', '', '1', '0000-00-00', NULL, NULL);
-INSERT INTO `lit_el_dat_kelas_modul` VALUES (55, 3, 6, '', '', '1', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (51, 3, 2, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (52, 3, 3, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (53, 3, 4, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (54, 3, 5, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (55, 3, 6, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (56, 5, 13, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (57, 5, 14, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (58, 5, 15, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (59, 5, 16, '', '', '0', '0000-00-00', NULL, NULL);
 INSERT INTO `lit_el_dat_kelas_modul` VALUES (60, 5, 17, '', '', '0', '0000-00-00', NULL, NULL);
-INSERT INTO `lit_el_dat_kelas_modul` VALUES (62, 5, 19, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (61, 5, 19, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (62, 6, 13, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (63, 6, 14, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (64, 6, 15, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (65, 6, 16, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (66, 6, 17, '', '', '0', '0000-00-00', NULL, NULL);
+INSERT INTO `lit_el_dat_kelas_modul` VALUES (67, 6, 19, '', '', '0', '0000-00-00', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for lit_el_kelas
@@ -274,6 +280,8 @@ CREATE TABLE `lit_el_kelas`  (
   `id_sub_gugus` int(11) NULL DEFAULT NULL,
   `nm_kelas` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tgl_dibuka` date NOT NULL,
+  `tgl_mulai` date NOT NULL,
+  `tgl_selesai` date NOT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
@@ -283,9 +291,9 @@ CREATE TABLE `lit_el_kelas`  (
 -- ----------------------------
 -- Records of lit_el_kelas
 -- ----------------------------
-INSERT INTO `lit_el_kelas` VALUES (1, 4, 22, 'HRM Essential', '2020-01-03', 1, '2020-01-03 00:00:00', '2020-01-03 00:00:00');
-INSERT INTO `lit_el_kelas` VALUES (2, 4, 22, 'HRM Strategy', '2020-01-02', 1, '2020-01-02 00:00:00', '2020-01-02 00:00:00');
-INSERT INTO `lit_el_kelas` VALUES (5, 2, 2, 'kue mateng', '2020-02-19', 1, NULL, '2020-02-19 04:30:08');
+INSERT INTO `lit_el_kelas` VALUES (1, 4, 22, 'HRM Essential', '2020-01-03', '0000-00-00', '0000-00-00', 1, '2020-01-03 00:00:00', '2020-01-03 00:00:00');
+INSERT INTO `lit_el_kelas` VALUES (2, 4, 22, 'HRM Strategy', '2020-01-02', '0000-00-00', '0000-00-00', 1, '2020-01-02 00:00:00', '2020-01-02 00:00:00');
+INSERT INTO `lit_el_kelas` VALUES (5, 2, 2, 'kue mateng', '2020-02-19', '0000-00-00', '0000-00-00', 1, NULL, '2020-02-19 04:30:08');
 
 -- ----------------------------
 -- Table structure for lit_el_kelas_modul
@@ -428,7 +436,7 @@ CREATE TABLE `lit_logging`  (
   `waktu` datetime(0) NOT NULL,
   `isread` set('0','1') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 140 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of lit_logging
@@ -572,6 +580,23 @@ INSERT INTO `lit_logging` VALUES (136, 'admin', '::1', 'login::login', 'select u
 INSERT INTO `lit_logging` VALUES (137, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-23 21:06:57', '0');
 INSERT INTO `lit_logging` VALUES (138, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 06:53:35', '0');
 INSERT INTO `lit_logging` VALUES (139, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 06:54:18', '0');
+INSERT INTO `lit_logging` VALUES (140, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 10:59:40', '0');
+INSERT INTO `lit_logging` VALUES (141, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 11:00:24', '0');
+INSERT INTO `lit_logging` VALUES (142, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 16:57:51', '0');
+INSERT INTO `lit_logging` VALUES (143, 'pegawai', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'pegawai\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 16:58:20', '0');
+INSERT INTO `lit_logging` VALUES (144, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-24 17:05:22', '0');
+INSERT INTO `lit_logging` VALUES (145, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-25 20:35:28', '0');
+INSERT INTO `lit_logging` VALUES (146, 'irul', '127.0.0.1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-27 06:24:22', '0');
+INSERT INTO `lit_logging` VALUES (147, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-27 13:12:22', '0');
+INSERT INTO `lit_logging` VALUES (148, 'admin', '127.0.0.1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-28 07:34:23', '0');
+INSERT INTO `lit_logging` VALUES (149, 'irul', '127.0.0.1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-28 07:53:28', '0');
+INSERT INTO `lit_logging` VALUES (150, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-28 08:33:11', '0');
+INSERT INTO `lit_logging` VALUES (151, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-28 08:33:38', '0');
+INSERT INTO `lit_logging` VALUES (152, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-28 09:12:22', '0');
+INSERT INTO `lit_logging` VALUES (153, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-29 08:30:23', '0');
+INSERT INTO `lit_logging` VALUES (154, 'admin', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'admin\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-29 08:30:45', '0');
+INSERT INTO `lit_logging` VALUES (155, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-29 10:32:47', '0');
+INSERT INTO `lit_logging` VALUES (156, 'irul', '::1', 'login::login', 'select user_id,lit_auth_password,lit_level_user from core_identity_user where user_id = \'irul\' AND lit_auth_password = \'uvKNMPwxLli1js8L+C/M8g==\' and status_locked = 0 ', '2020-02-29 13:02:29', '0');
 
 -- ----------------------------
 -- Table structure for lit_pms_dat_perilaku

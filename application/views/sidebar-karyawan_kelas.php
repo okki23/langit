@@ -2,7 +2,7 @@
 			<div class="sidebar-content">
 			<!-- User dropdown -->
 			<?php	
-		    $id_kelas= $this->uri->segment(3);
+		    //$id_kelas= $this->uri->segment(3);
 			$id=$this->session->userdata('ses_personnel_id');
 			$sql        =   $this->db->query("SELECT a.*,b.bagian,b.lit_code_position,b.name_position,b.status_jabatan,b.id_jabatan, concat(replace(round(DATEDIFF(now(),STR_TO_DATE(birth_date,'%Y%m%d'))/365,1),'.',' Thn '),' Bulan') as usia FROM human_pa_md_emp_personal a left join lit_tab_posisi b on a.personnel_id=b.personnel_id where a.personnel_id = '$id'  order by start_date desc limit 1")->row_array();
 			$namapegawai = $sql['name_full'];
@@ -21,13 +21,21 @@
 					</a> 
 				</div> 
 				<ul class="navigation">	 	 
-					<li><a href="#"><span>Pembelajaran Elektronik Pegawai <?php echo $this->uri->segment(3); ?></span> <i class="icon-clipboard"></i></a>
+					<li><a href="#"><span>Pembelajaran Elektronik Pegawai </span> <i class="icon-clipboard"></i></a>
 					<ul>
 						<?php
-						$sqlmenu  =   $this->db->query("SELECT a.*,concat('modulmateri','/tampil/',a.id) as menu_url, c.nm_modul as menu_name, case when a.status=1 then '√' else ' ' end as sts_read FROM lit_el_dat_kelas_modul a 
-						INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id 
-						INNER JOIN lit_el_kelas_modul c on a.id_kelas_modul=c.id 
-						where a.id_dat_kelas = '$id_kelas' and b.personnel_id='$id' ")->result_array(); 
+						//http://localhost/langit/modulmateri/tampil/57/5
+						if(!empty($this->uri->segment(4))){
+							$sqlmenu  =   $this->db->query("SELECT a.*,concat('modulmateri','/tampil/',a.id,'/',a.id_dat_kelas) as menu_url, c.nm_modul as menu_name, case when a.status=1 then '√' else ' ' end as sts_read FROM lit_el_dat_kelas_modul a 
+							INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id 
+							INNER JOIN lit_el_kelas_modul c on a.id_kelas_modul=c.id 
+							where a.id_dat_kelas = ".$this->uri->segment(4)." and b.personnel_id='$id' order by a.id asc")->result_array(); 
+						}else{
+							$sqlmenu  =   $this->db->query("SELECT a.*,concat('modulmateri','/tampil/',a.id,'/',a.id_dat_kelas) as menu_url, c.nm_modul as menu_name, case when a.status=1 then '√' else ' ' end as sts_read FROM lit_el_dat_kelas_modul a 
+							INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id 
+							INNER JOIN lit_el_kelas_modul c on a.id_kelas_modul=c.id 
+							where a.id_dat_kelas = ".$this->uri->segment(3)." and b.personnel_id='$id' order by a.id asc")->result_array(); 
+						} 
 						foreach ($sqlmenu as $r_menu_thumbnail) {
 						?>
 						<li <?php if($location == $r_menu_thumbnail['menu_name']) { echo 'class="active"'; }  ?>><a href="<?php echo base_url(''.$r_menu_thumbnail['menu_url'].'');?>"><?php echo $r_menu_thumbnail['menu_name']." ".$r_menu_thumbnail['sts_read'];?> </a></li>

@@ -53,12 +53,15 @@ class Modulmateri extends CI_Controller {
 		{$this->load->view('dashboard',$data);}
 	}
 
-	public function tampil()	{
+	public function tampil(){
 		$error = '';
 		$location = $this->uri->segment(1);
 		$id = $this->uri->segment(3);
+		$idsb = $id-1;
 		$datkelas = $this->uri->segment(4);
+		 
 		$getstat = $this->db->query("select * from lit_el_dat_kelas_modul where id = '".$id."' and id_dat_kelas = '".$datkelas."' ")->row();
+		
 		
 		$offsets = array();
 		$listingdata = $this->db->query("select * from lit_el_dat_kelas_modul where id_dat_kelas = '".$datkelas."' ")->result_array();
@@ -70,27 +73,53 @@ class Modulmateri extends CI_Controller {
 		asort($offsets);
 		$init = reset($offsets);
 		$max = max($offsets);
-		foreach($offsets as $offset) {
-				//echo $offset . "<br />";
+		foreach($offsets as $offset) { 
 				$query = $this->db->query("select a.*,b.nm_modul as modulnya,b.materi from lit_el_dat_kelas_modul a 
 				left join lit_el_kelas_modul b on b.id = a.id_kelas_modul
-				where a.id = '".$offset."' ")->row();
-				//echo $query->id.' - '.$query->modulnya." - ".$query->status."<br>";
+				where a.id = '".$offset."' ")->row(); 
 		}
 		$data_xyz = $this->model_modulmateri->get_data_modul($id);
-	 		$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
-					  	'error'=>$error,
-					  	'id'=>$id,
-			    	  	'idnow'=>$id,
-						'idstart'=>$init,
-						'idlast'=>$max,
-					   'idprev'=>$getstat->id-1,
-					  'idnext'=>$getstat->id+1,
-	                  'location'=>$location,
-					  'data_xyz'=>$data_xyz,
-					  'footer'=>'© 2020. Langit Infotama');	
-	 	$this->load->view('dashboard_karyawan',$data);
-		//echo $id;exit;
+		$sqlcek = @$this->db->query("select * from lit_el_dat_kelas_modul where id = '".$idsb."' and id_dat_kelas = '".$datkelas."' ")->row();
+		// echo $idsb;
+		// echo "<br>";
+		// echo $sqlcek->status;
+		// die(); 
+	//  echo "id start : ".$init."<br>";
+	//  echo "id sekarang :". $id."<br>";
+	//  die();
+			 if($id == $init){
+				$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
+				'error'=>$error,
+				'id'=>$id,
+				'idnow'=>$id,
+			 	'idstart'=>$init,
+			 	'idlast'=>$max,
+			 	'idprev'=>$getstat->id-1,
+				'idnext'=>$getstat->id+1,
+				'location'=>$location,
+				'data_xyz'=>$data_xyz,
+				'footer'=>'© 2020. Langit Infotama');	
+   				$this->load->view('dashboard_karyawan',$data); 
+			}else if($sqlcek->status == 0){ 
+				echo "<script type='text/javascript'>
+				alert('Maaf, anda tidak dapat melongkap ke modul yang anda pilih karena belum menyelesaikan modul sebelum ini!');   
+				window.location='".base_url('kelas_pembelajaran/tampil_kelas/'.$datkelas)."';
+				</script>";
+			}else{
+				$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
+				'error'=>$error,
+				'id'=>$id,
+				'idnow'=>$id,
+			 	'idstart'=>$init,
+			 	'idlast'=>$max,
+			 	'idprev'=>$getstat->id-1,
+				'idnext'=>$getstat->id+1,
+				'location'=>$location,
+				'data_xyz'=>$data_xyz,
+				'footer'=>'© 2020. Langit Infotama');	
+   				$this->load->view('dashboard_karyawan',$data); 
+			}
+	 	
 	}
  
  	public function tampil_next($id,$datkelas)	{

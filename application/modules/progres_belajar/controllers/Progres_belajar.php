@@ -23,8 +23,15 @@ class progres_belajar extends Parent_Controller {
 		$no = 1;
 		$dataparse = array();  
 		foreach ($getdata as $key => $value) {   
-				$sub_array['no'] = $no;
-				$sub_array['nm_modul'] = $value->nm_modul;   
+				$sub_array['no'] = $no; 
+				if($value->status == 1){
+					$sub_array['nm_modul'] = $value->nm_modul;  
+					$sub_array['status'] = 'Complete'; 
+				}else{
+					$sub_array['nm_modul'] = '<a href="'.base_url('modulmateri/tampil/'.$value->iddatmodul.'/'.$value->id).'" target="_blank"> '.$value->nm_modul.'</a>';
+					$sub_array['status'] = 'Not Complete'; 
+				}
+				  
 			array_push($dataparse,$sub_array); 
 			$no++; 
 		}

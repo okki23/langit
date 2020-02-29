@@ -11,8 +11,7 @@
                 }
         </script>
       
-<head>
-    
+<head> 
     
     <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/summernote/summernote-bs4.css';?>">
 </head>  
@@ -23,8 +22,7 @@
 
 <!--awal bagian konten -->
 
-	<div class="page-container">
- 
+	<div class="page-container"> 
 		<?php
         foreach($data_xyz->result() as $row){ 
                   $materinya = $row->materinya;
@@ -35,6 +33,7 @@
               }
 		if($this->session->userdata('ses_lit_level_user')=='1')
 		{
+        
 	  	   $this->load->view('sidebar-karyawan_kelas',$location);	
 		}
 		else 
@@ -46,7 +45,7 @@
  
 	 	<div class="page-content">
 			<div class="page-header">
-				<div class="page-title">
+				<div class="page-title"> 
 					<h3>Kelas <?php echo $kelasnya;?>  </h3>
                     <a href="<?php echo base_url('materi_video'); ?>" class="btn btn-primary"><i class="icon-arrow-left3"></i> Back to Home </a>
                     <br>
