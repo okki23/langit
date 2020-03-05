@@ -131,7 +131,7 @@
                                             <div class="exist"></div> 
                                             <br>
                                             &nbsp; 
-                                            <input type="text" name="file_assignment" id="file_assignment"> 
+                                            <input type="hidden" name="file_assignment" id="file_assignment"> 
                                             <button style="float:left; margin-left:0px;" class="btn btn-primary" type="button" name="upload" id="upload" > Upload </button>
                                             <br>
                                             &nbsp; 

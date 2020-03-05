@@ -15,15 +15,13 @@ class M_work_assignment extends Parent_Model {
 	public function fetch_work_assignment()
 	{
 	   if($this->session->userdata('username') == 'admin'){
-		$getdata = $this->db->query("select a.id,a.personnel_id,b.nm_kelas,b.file_assignment,c.nm_gugus,d.nm_sub_gugus,a.file_realisasi from lit_el_dat_kelas a
-		left join lit_el_kelas b on b.id = a.id_kelas
-		left join lit_el_tab_gugus c on c.id = b.id_gugus
-		left join lit_el_tab_gugus_sub d on d.id = b.id_sub_gugus")->result();
+		$getdata = $this->db->query("select a.*,b.nm_gugus,c.nm_sub_gugus from lit_el_kelas a
+		left join lit_el_tab_gugus b on b.id = a.id_gugus
+		left join lit_el_tab_gugus_sub c on c.id = a.id_sub_gugus")->result();
 	   }else{
-		$getdata = $this->db->query("select a.id,a.personnel_id,b.nm_kelas,b.file_assignment,c.nm_gugus,d.nm_sub_gugus,a.file_realisasi from lit_el_dat_kelas a
-		left join lit_el_kelas b on b.id = a.id_kelas
-		left join lit_el_tab_gugus c on c.id = b.id_gugus
-		left join lit_el_tab_gugus_sub d on d.id = b.id_sub_gugus where a.personnel_id =  '".$this->session->userdata('ses_personnel_id')."' ")->result();
+		$getdata = $this->db->query("select a.*,b.nm_gugus,c.nm_sub_gugus from lit_el_kelas a
+		left join lit_el_tab_gugus b on b.id = a.id_gugus
+		left join lit_el_tab_gugus_sub c on c.id = a.id_sub_gugus where a.personnel_id =  '".$this->session->userdata('ses_personnel_id')."' ")->result();
 	   }
 	  
 	   $data = array();
@@ -54,11 +52,11 @@ class M_work_assignment extends Parent_Model {
 
 		  //realisasi
 		  if($this->session->userdata('username') == 'admin'){ 
-				$sub_array[] = '<a class="btn btn-primary" disabled="disabled"> Lihat File  Realisasi </a>'; 
+				$sub_array[] = '<a class="btn btn-primary" > Lihat File  Realisasi </a>'; 
 		  }else{ 
 			// cek ada penugasan atau tidak, kalau tidak ada penugasan maka tidak akan ada upload realisasi
 			if(empty($row->file_assignment)){
-				$sub_array[] = '<a class="btn btn-primary" disabled="disabled"> Tidak Ada File Assignment </a>';
+				$sub_array[] = '<a class="btn btn-primary"  > Tidak Ada File Assignment </a>';
 			}else if(empty($row->file_realisasi)){
 				$sub_array[] = '<button type="button"  onclick="UploadAssign(' . $row->id . ');" id="realbtn" data-id="work_assignment/saveuploadrealisasi" class="btn btn-primary btn-lg"  >
 				Upload File Realisasi 
