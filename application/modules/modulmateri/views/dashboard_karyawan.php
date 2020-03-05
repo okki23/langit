@@ -60,11 +60,20 @@
             <div class="panel-body">
                 <div class="col-sm-12">
                     <br>    
-                    <a href="<?php echo base_url('file_manager_dir/'.$file); ?>" target="_blank" class="btn btn-primary"> <i class="icon-book2"></i> Download Materi </a>
+                   
                         <table class="table table-striped table-bordered table-hover" style="width:100%; ">
-                     
-                             <tr>
-                               
+                            <?php
+                                if(empty($file)){ 
+                            ?> 
+                                <a onclick="InfoError();" target="_blank" class="btn btn-primary"> <i class="icon-book2"></i> Download Materi </a> 
+                            <?php
+                                }else{
+                            ?>
+                                <a href="<?php echo base_url('file_manager_dir/'.$file); ?>" target="_blank" class="btn btn-primary"> <i class="icon-book2"></i> Download Materi </a>
+                            <?php 
+                                }
+                            ?>
+                            <tr> 
                                 <td style="padding:10px 20px 10px 20px;"> 
                                 <?php echo $materinya; ?>
                                 </td>
@@ -102,9 +111,7 @@
                             <button type="button" class="btn btn-primary" onclick="Finish(<?php echo $id; ?>,<?php echo $this->uri->segment(4); ?>);"> <i class="icon-minus-circle2"></i> Finish  </button>
                         <?php
                         }else{
-                        ?>
-                             
-                             
+                        ?> 
                              <button type="submit" class="btn btn-primary"> Selanjutnya <i class="icon-arrow-right"></i>  </button>
                         <?php
                         }
@@ -128,6 +135,10 @@
                 }
             });
             
+        }
+        
+        function InfoError(){ 
+            sweetAlert("Maaf", "File Tidak Tersedia", "error"); //T
         }
     </script>
 </body>

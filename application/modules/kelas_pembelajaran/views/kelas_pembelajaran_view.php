@@ -37,6 +37,7 @@
                     <th style="width:5%; text-align:center;">Nama Kelas</th>
                     <th style="width:5%; text-align:center;">Tanggal Dibuka</th> 
                     <th style="width:10%; text-align:center;">Is Active</th>  
+                    <th style="width:10%; text-align:center;">File Assignment</th>  
                     <th style="width:20%; text-align:center;">Opsi</th>
                 </tr>
             </thead>
@@ -120,9 +121,28 @@
                                         </select>
                                     </div>
                                     <br>
-                                    &nbsp;
-                                 
-                                </div>
+                                    &nbsp; 
+                                        <div class="col-sm-12">
+                                        <label>File Assignment:</label>
+                                        <input type="file" name="filemateri" id="filemateri" onchange="PreviewFile(this);" />
+                                        <span class="btn btn-warning"> File Extension Only PDF / DOC/ DOCX / XLS / XLSX / PPT / PPTX </span>
+                                        <br>
+                                            &nbsp; 
+                                            <div class="exist"></div> 
+                                            <br>
+                                            &nbsp; 
+                                            <input type="text" name="file_assignment" id="file_assignment"> 
+                                            <button style="float:left; margin-left:0px;" class="btn btn-primary" type="button" name="upload" id="upload" > Upload </button>
+                                            <br>
+                                            &nbsp; 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-primary myprogress" role="progressbar" style="width:0%">0%</div>
+                                            </div>
+                                            <br>
+                                            &nbsp; 
+                                            <div class="msg"></div>   
+                                        </div> 
+                                    </div> 
                                     <br>
                                     &nbsp;
  
@@ -187,6 +207,60 @@
              "ajax": "<?php echo base_url(); ?>kelas_pembelajaran/fetch_kelas_pembelajaran",
              "destroy":true
     });  
+
+    function PreviewFile(input) { 
+        if (input.files && input.files[0]){
+            var reader = new FileReader(); 
+            reader.onload = function (e) {
+                var tmp = $('#filemateri').val().replace(/C:\\fakepath\\/i, ''); 
+                $("#file_assignment").val(tmp.replace(' ','_'));
+            };
+            reader.readAsDataURL(input.files[0]); 
+        }
+    } 
+
+    $("#upload").on("click",function(){ 
+	var file_data = $("#filemateri").prop("files")[0];
+	var form_data = new FormData();   
+	form_data.append("file", file_data); 
+    var ext = $('#filemateri').val().split('.').pop().toLowerCase();
+    if($.inArray(ext, ['pdf','doc','docx','xls','xlsx','ppt','pptx']) == -1) {
+        alert('File yang diperbolehkan hanyalah PDF / DOC/ DOCX / XLS / XLSX / PPT / PPTX  saja !');
+    }else{
+        $('#upload').attr('disabled', 'disabled');
+        $.ajax({
+            url: "<?php echo base_url('kelas_pembelajaran/saveupload'); ?>",
+            dataType: 'script',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,   
+            type: 'post', 
+            xhr: function () {
+                
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        $('.msg').html('Now Loading!');	
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+                        $('.myprogress').text(percentComplete + '%');
+                        $('.myprogress').css('width', percentComplete + '%');
+                        if(percentComplete == 100){
+                            $('.msg').html('Upload Complete!');	
+                        } 
+                    }
+                }, false); 
+                return xhr; 
+            },
+            success:function(result){ 
+                var parse = JSON.parse(result);   
+                $('#upload').prop('disabled', false); 
+            } 
+        }); 
+    }  
+    });  
+
     function Simpan_Data() { 
          var formData = new FormData($('#formdata')[0]);  
          $.ajax({
@@ -231,6 +305,14 @@
                  $("#id").val(result.id); 
                  $("#tgl_dibuka").val(result.tgl_dibuka);
                  $("#nm_kelas").val(result.nm_kelas);
+                 $("#file_assignment").val(result.file_assignment); 
+                 if(result.file_assignment == null){
+                    $(".exist").html('File Exist : -');
+                 }else{
+                    $(".exist").html("File Exist : <a href='<?php echo base_url('file_manager_dir'); ?>/"+result.file_assignment+"' class='btn btn-primary' target='_blank'> "+result.file_assignment+"  </a>");
+                 }
+                 
+                  
                  $("#isactive").select2().select2('val',result.isactive); 
                  $("#id_gugus").select2().select2('val',result.id_gugus); 
                  $("#id_sub_gugus").select2().select2('val',result.id_sub_gugus); 

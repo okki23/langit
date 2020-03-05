@@ -62,11 +62,25 @@ class Work_assignment extends Parent_Controller {
 		echo json_encode($sql, TRUE); 
 	}
 
-	function saveupload(){ 
+	function saveuploadassign(){ 
 		if($_FILES["file"]["name"] != ''){ 
 			$location = './file_manager_dir/' . str_replace(" ","_",$_FILES["file"]["name"]);  
 			$upload = move_uploaded_file(str_replace(" ","_",$_FILES["file"]["tmp_name"]), $location);  
 			$this->db->set("file_assignment",$_FILES["file"]["name"])->where('id',$this->input->post('id'))->update('lit_el_dat_kelas');
+				 if($upload){
+					$data = array("status"=>"OK","code"=>200,"id"=>$this->input->post('id'),"message"=>"Successfully");
+				 }else{
+					$data = array("status"=>"NOT OK","code"=>200,"id"=>$this->input->post('id'),"message"=>"Failed");
+				 }
+				 echo json_encode($data,true);
+			}
+	}
+
+	function saveuploadrealisasi(){ 
+		if($_FILES["file"]["name"] != ''){ 
+			$location = './file_manager_dir/' . str_replace(" ","_",$_FILES["file"]["name"]);  
+			$upload = move_uploaded_file(str_replace(" ","_",$_FILES["file"]["tmp_name"]), $location);  
+			$this->db->set("file_realisasi",$_FILES["file"]["name"])->where('id',$this->input->post('id'))->update('lit_el_dat_kelas');
 				 if($upload){
 					$data = array("status"=>"OK","code"=>200,"id"=>$this->input->post('id'),"message"=>"Successfully");
 				 }else{

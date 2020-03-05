@@ -91,6 +91,7 @@ class Modulmateri extends CI_Controller {
 				$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 				'error'=>$error,
 				'id'=>$id,
+				'datkelas'=>$datkelas,
 				'idnow'=>$id,
 			 	'idstart'=>$init,
 			 	'idlast'=>$max,
@@ -109,6 +110,7 @@ class Modulmateri extends CI_Controller {
 				$data = array('judul'=>'Human Resource Information System (HRIS) ASDP',
 				'error'=>$error,
 				'id'=>$id,
+				'datkelas'=>$datkelas,
 				'idnow'=>$id,
 			 	'idstart'=>$init,
 			 	'idlast'=>$max,
@@ -150,6 +152,16 @@ class Modulmateri extends CI_Controller {
 		$datkelas = $this->input->post('datkelas');        
 		$sqlupdate = $this->model_modulmateri->pro_update_modul($id);
 		 
+	}
+
+	public function cekfile(){
+		$id = $this->uri->segment(3); 
+		$query = $this->db->query("select a.*,c.nm_kelas,d.pathfile,d.materi as namamateri,d.nm_modul as namamodul from lit_el_dat_kelas_modul a 
+		left join lit_el_dat_kelas b on b.id = a.id_dat_kelas
+		left join lit_el_kelas c on c.id = b.id_kelas
+		left join lit_el_kelas_modul d on d.kelas_id = b.id_kelas
+		where a.id = ".$id." ")->row();
+		echo json_encode($query,TRUE);
 	}
 	 
 	

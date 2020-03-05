@@ -7,28 +7,8 @@
 			<div class="page-header">
 				<div class="page-title">
                     <h3>Data <?php echo set_title($location);?></h3> 
-                    <!-- Button trigger modal -->
-                     
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                            <br>
-                            <input type="text" name="id" id="id">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
+                    <!-- Button trigger modal --> 
+                    </div>        
 			</div>
 		<!-- /sidebar -->
         <table class="table table-bordered table-striped table-hover js-basic-example" style="text-align:center;" id="example">
@@ -58,6 +38,7 @@
                                         <div class="col-sm-12">
                                         <label>File Materi:</label>
                                         <input type="hidden" name="id" id="id">
+                                        <input type="hidden" name="urltext" id="urltext">
                                         <input type="file" name="filemateri" id="filemateri"   />
                                         <span class="btn btn-warning"> File Extension Only PDF / DOC/ DOCX / XLS / XLSX / PPT / PPTX </span>
                                         <br>
@@ -126,8 +107,10 @@
 	var file_data = $("#filemateri").prop("files")[0];
 	var form_data = new FormData();  
     var idnya = $("#id").attr("value"); 
+    var urltext = $("#urltext").attr("value"); 
 	form_data.append("file", file_data);
     form_data.append("id", idnya);
+    form_data.append("urltext", urltext);
     //filter here...
     var ext = $('#filemateri').val().split('.').pop().toLowerCase();
     if($.inArray(ext, ['pdf','doc','docx','xls','xlsx','ppt','pptx']) == -1) {
@@ -135,7 +118,7 @@
     }else{
         $('#upload').attr('disabled', 'disabled');
         $.ajax({
-            url: "<?php echo base_url('work_assignment/saveupload'); ?>",
+            url: "<?php echo base_url(); ?>"+urltext,
             dataType: 'script',
             cache: false,
             contentType: false,
@@ -197,6 +180,8 @@
 	}); 
 
     function UploadAssign(id) { 
+        var isi = $("#realbtn").data("id"); 
+         $("#urltext").val(isi);
          $("#UploadAssign").modal('show');  
          $("#id").val(id);
      }

@@ -21,10 +21,9 @@
 					</a> 
 				</div> 
 				<ul class="navigation">	 	 
-					<li><a href="#"><span>Pembelajaran Elektronik Pegawai </span> <i class="icon-clipboard"></i></a>
+					<li class="active"><a href="#"><span>Pembelajaran Elektronik Pegawai </span> <i class="icon-clipboard"></i></a>
 					<ul>
-						<?php
-						//http://localhost/langit/modulmateri/tampil/57/5
+						<?php 
 						if(!empty($this->uri->segment(4))){
 							$sqlmenu  =   $this->db->query("SELECT a.*,concat('modulmateri','/tampil/',a.id,'/',a.id_dat_kelas) as menu_url, c.nm_modul as menu_name, case when a.status=1 then '√' else ' ' end as sts_read FROM lit_el_dat_kelas_modul a 
 							INNER JOIN lit_el_dat_kelas b on a.id_dat_kelas=b.id 

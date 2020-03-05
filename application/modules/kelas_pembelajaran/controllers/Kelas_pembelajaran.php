@@ -4,31 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Kelas_pembelajaran extends Parent_Controller { 
 
 	var $nama_tabel = 'lit_el_kelas'; 
-	var $daftar_field = array('id','id_gugus','id_sub_gugus','nm_kelas','tgl_dibuka','isactive','created_at','updated_at');
+	var $daftar_field = array('id','id_gugus','id_sub_gugus','nm_kelas','file_assignment','tgl_dibuka','isactive','created_at','updated_at');
 	var $primary_key = 'id';
 
 	public function __construct(){
 		parent ::__construct(); 
 		$this->load->model('m_kelas_pembelajaran');
-	}  
-	// public function get_materi(){
-	// 	$id = $this->input->get('id_kelas');
-	// 	$sql = $this->db->query("select a.*,b.`status`,b.id as iddatmodul,b.id_kelas_modul,c.nm_modul,c.pathfile from lit_el_dat_kelas a
-	// 	left join lit_el_dat_kelas_modul b on b.id_dat_kelas = a.id
-	// 	left join lit_el_kelas_modul c on c.id = b.id_kelas_modul
-	// 	  where a.id = '".$id."' ")->result();
- 
-	// 	$no = 1;
-	// 	$dataparse = array();  
-	// 	foreach ($sql as $key => $value) {   
-	// 			$sub_array['no'] = $no;
-	// 			$sub_array['nm_modul'] = $value->nm_modul; 		 
-	// 		array_push($dataparse,$sub_array); 
-	// 		$no++;
-		 	   
-	// 	}
-	//  echo json_encode(array("data"=>$dataparse)); 
-	// }
+	}   
 
 	public function get_materi(){ 
 		$id_kelas = $this->input->get('id_kelas');  
@@ -209,4 +191,18 @@ class Kelas_pembelajaran extends Parent_Controller {
 			} 
 		echo json_encode($result, TRUE);
 	} 
+
+	
+	function saveupload(){
+		if($_FILES["file"]["name"] != ''){ 
+			$location = './file_manager_dir/' . str_replace(" ","_",$_FILES["file"]["name"]); 
+			$upload = move_uploaded_file(str_replace(" ","_",$_FILES["file"]["tmp_name"]), $location);  
+				 if($upload){
+					$data = array("status"=>"OK","code"=>200,"message"=>"Successfully");
+				 }else{
+					$data = array("status"=>"NOT OK","code"=>200,"message"=>"Failed");
+				 }
+				 echo json_encode($data,true);
+			}
+	}
 }

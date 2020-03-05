@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_kelas_pembelajaran extends Parent_Model {
 
 	var $nama_tabel = 'lit_el_kelas'; 
-	var $daftar_field = array('id','nm_kelas','tgl_dibuka','isactive','created_at','updated_at');
+	var $daftar_field = array('id','id_gugus','id_sub_gugus','nm_kelas','file_assignment','tgl_dibuka','isactive','created_at','updated_at');
 	var $primary_key = 'id';
 
 	public function __construct(){
@@ -31,11 +31,16 @@ class M_kelas_pembelajaran extends Parent_Model {
 				}else{
 					$sub_array[] = 'Tidak Aktif';
 				} 
+				if(empty($row->file_assignment)){
+					$sub_array[] = '<a class="btn btn-primary"> File Assignment Tidak Ada </a>';
+				}else{
+					$sub_array[] = '<a class="btn btn-primary" target="_blank" href="file_manager_dir/'.$row->file_assignment.'"> Download File Assignment </a>';
+				} 
 				$sub_array[] = '<div style="text-align:center;">
 										<a href="javascript:void(0)" class="btn btn-warning" id="edit" onclick="Ubah_Data(' . $row->id . ');" > Ubah </a>  &nbsp;
 										<a href="javascript:void(0)" id="delete" class="btn btn-danger" onclick="Hapus_Data(' . $row->id . ');" >  Hapus </a>
 									</div>';
-			
+				
 				$data[] = $sub_array;
 				$no++;
 			}
